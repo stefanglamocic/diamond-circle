@@ -1,13 +1,14 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
+<?import javafx.geometry.Insets?>
 <BorderPane fx:controller="project.Controller"
             xmlns:fx="http://javafx.com/fxml">
     <top>
-        <VBox>
+        <VBox alignment="CENTER">
             <MenuBar>
                 <Menu text="Game...">
-                    <MenuItem fx:id="startStopItem" text="Start"/>
+                    <MenuItem fx:id="startStopItem" text="Start" onAction="#startStopAction"/>
                 </Menu>
                 <Menu text="Configure">
                     <MenuItem text="Players"></MenuItem>
@@ -15,11 +16,25 @@
                 </Menu>
             </MenuBar>
 
-            <HBox prefHeight="70" prefWidth="Infinity" alignment="CENTER">
-                <Label fx:id="gameCountLabel" text="Trenutni broj odigranih&#10;igara:0"/>
+            <HBox prefHeight="70" prefWidth="Infinity" alignment="CENTER_LEFT">
+                <padding>
+                    <Insets topRightBottomLeft="10"/>
+                </padding>
+                <Label fx:id="gameCountLabel" text="Trenutni broj odigranih igara: 0" wrapText="true" prefWidth="150" prefHeight="50">
+                    <font>
+                        <Font size="14"/>
+                    </font>
+                </Label>
+                <Region HBox.hgrow="ALWAYS"/>
                 <Label text="DiamondCircle">
                     <font>
-                        <Font name="FreeMono bold" size="25"/>
+                        <Font name="Comic Sans MS bold" size="20"/>
+                    </font>
+                </Label>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Label fx:id="gameTimeLabel" text="Vrijeme trajanja igre: 0s" prefWidth="160">
+                    <font>
+                        <Font size="14"/>
                     </font>
                 </Label>
             </HBox>
@@ -27,10 +42,15 @@
     </top>
 
     <left>
-        <ListView></ListView>
+        <ListView fx:id="figurineListView"/>
     </left>
 
     <center>
         <GridPane fx:id="gridPane"/>
     </center>
+
+    <bottom>
+        <VBox prefHeight="150" style="-fx-border-color:black; -fx-border-insets: 5; -fx-border-width: 1; -fx-border-style: solid;">
+        </VBox>
+    </bottom>
 </BorderPane>
