@@ -1,4 +1,4 @@
-package model;
+package project.model;
 
 public enum Color {
     RED, BLUE, GREEN, YELLOW, INVISIBLE

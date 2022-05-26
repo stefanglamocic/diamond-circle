@@ -1,4 +1,4 @@
-package sample;
+package project;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -11,8 +11,8 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("main.fxml"));
-        primaryStage.setTitle("java 2022");
-        primaryStage.setScene(new Scene(root, 300, 275));
+        primaryStage.setTitle("DiamondCircle");
+        primaryStage.setScene(new Scene(root, 600, 600));
         primaryStage.show();
     }
 

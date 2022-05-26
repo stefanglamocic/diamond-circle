@@ -1,6 +1,5 @@
-package model;
+package project.model;
 
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public abstract class Figurine extends ImageView implements Runnable{

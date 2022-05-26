@@ -1,4 +1,4 @@
-package model;
+package project.model;
 
 public class Matrix {
     private int dimension;

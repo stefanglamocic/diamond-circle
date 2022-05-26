@@ -1,6 +1,4 @@
-package model;
-
-import javafx.scene.image.Image;
+package project.model;
 
 public class RegularFigurine extends Figurine{
     public RegularFigurine(Color color){

@@ -1,4 +1,4 @@
-package model;
+package project.model;
 
 public class Field {
     private int diamonds;
