@@ -24,11 +24,16 @@ public class Timer implements Runnable{
             }
             i++;
             int finalI = i;
-            Platform.runLater(() -> controller.gameTimeLabel.setText(gameDurationText + finalI + "s"));
+            Platform.runLater(() -> controller.gameTimeLabel.setText(gameDurationText + getTime(finalI)));
 
             if(Thread.interrupted())
                 return;
         }
+    }
+
+    private String getTime(int i){
+        int mod = i % 60;
+        return i / 60 + ":" + (mod < 10 ? "0" + mod : mod);
     }
 
     public void stopTimer(){

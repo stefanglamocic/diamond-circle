@@ -2,55 +2,85 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 <?import javafx.geometry.Insets?>
-<BorderPane fx:controller="project.Controller"
-            xmlns:fx="http://javafx.com/fxml">
-    <top>
-        <VBox alignment="CENTER">
-            <MenuBar>
-                <Menu text="Game...">
-                    <MenuItem fx:id="startStopItem" text="Start" onAction="#startStopAction"/>
-                </Menu>
-                <Menu text="Configure">
-                    <MenuItem text="Players"></MenuItem>
-                    <MenuItem text="Matrix dimension"></MenuItem>
-                </Menu>
-            </MenuBar>
 
-            <HBox prefHeight="70" prefWidth="Infinity" alignment="CENTER_LEFT">
+<VBox fx:controller="project.Controller"
+      xmlns:fx="http://javafx.com/fxml">
+
+    <MenuBar>
+        <Menu text="Game...">
+            <MenuItem fx:id="startStopItem" text="Start" onAction="#startStopAction"/>
+        </Menu>
+        <Menu text="Configure">
+            <MenuItem text="Players"></MenuItem>
+            <MenuItem text="Matrix dimension"></MenuItem>
+        </Menu>
+    </MenuBar>
+
+    <HBox alignment="CENTER_LEFT" prefHeight="90">
+        <padding>
+            <Insets left="60" right="60"/>
+        </padding>
+
+        <Label fx:id="gameCountLabel" text="Trenutni broj odigranih igara: 0" wrapText="true" prefWidth="150" prefHeight="50"
+            HBox.hgrow="ALWAYS">
+            <font>
+                <Font size="14"/>
+            </font>
+        </Label>
+
+        <Region HBox.hgrow="SOMETIMES"/>
+
+        <Label text="DiamondCircle" HBox.hgrow="ALWAYS">
+            <font>
+                <Font name="Comic Sans MS bold" size="20"/>
+            </font>
+        </Label>
+
+        <Region HBox.hgrow="SOMETIMES"/>
+
+        <Label fx:id="gameTimeLabel" text="Vrijeme trajanja igre: 0:00" HBox.hgrow="ALWAYS">
+            <font>
+                <Font size="14"/>
+            </font>
+        </Label>
+    </HBox>
+
+    <BorderPane VBox.vgrow="ALWAYS">
+        <padding>
+            <Insets topRightBottomLeft="10"/>
+        </padding>
+        <top>
+            <!--     IGRACI >-->
+        </top>
+
+        <left>
+            <ListView fx:id="figurineListView"/>
+        </left>
+
+        <center>
+            <VBox>
                 <padding>
-                    <Insets topRightBottomLeft="10"/>
+                    <Insets left="10"/>
                 </padding>
-                <Label fx:id="gameCountLabel" text="Trenutni broj odigranih igara: 0" wrapText="true" prefWidth="150" prefHeight="50">
-                    <font>
-                        <Font size="14"/>
-                    </font>
-                </Label>
-                <Region HBox.hgrow="ALWAYS"/>
-                <Label text="DiamondCircle">
-                    <font>
-                        <Font name="Comic Sans MS bold" size="20"/>
-                    </font>
-                </Label>
-                <Region HBox.hgrow="ALWAYS"/>
-                <Label fx:id="gameTimeLabel" text="Vrijeme trajanja igre: 0s" prefWidth="160">
-                    <font>
-                        <Font size="14"/>
-                    </font>
-                </Label>
-            </HBox>
-        </VBox>
-    </top>
+                <HBox VBox.vgrow="ALWAYS">
+                    <GridPane fx:id="gridPane"/>
+                </HBox>
+                <HBox alignment="CENTER" prefHeight="190" spacing="20">
+                    <VBox style="-fx-border-color:black; -fx-border-width: 1; -fx-border-style: solid;"
+                              HBox.hgrow="ALWAYS" maxWidth="Infinity" alignment="CENTER">
+                    </VBox>
+                    <VBox alignment="CENTER" HBox.hgrow="SOMETIMES" prefWidth="190">
+                        <Button text="Prikaz liste fajlova sa rezultatima" wrapText="true" prefWidth="130" textAlignment="CENTER">
+                            <font>
+                                <Font size="14"/>
+                            </font>
+                        </Button>
+                    </VBox>
+                </HBox>
+            </VBox>
 
-    <left>
-        <ListView fx:id="figurineListView"/>
-    </left>
+        </center>
 
-    <center>
-        <GridPane fx:id="gridPane"/>
-    </center>
+    </BorderPane>
 
-    <bottom>
-        <VBox prefHeight="150" style="-fx-border-color:black; -fx-border-insets: 5; -fx-border-width: 1; -fx-border-style: solid;">
-        </VBox>
-    </bottom>
-</BorderPane>
+</VBox>

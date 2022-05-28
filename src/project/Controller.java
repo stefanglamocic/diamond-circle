@@ -1,6 +1,5 @@
 package project;
 
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -40,7 +39,7 @@ public class Controller {
             startStopItem.setText("Start");
             gameCount++;
             timer.stopTimer();
-            gameTimeLabel.setText(gameDurationText + "0s");
+            gameTimeLabel.setText(gameDurationText + "0:00");
             gameCountLabel.setText(gameCountText + gameCount);
         }
     }
