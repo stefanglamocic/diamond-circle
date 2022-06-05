@@ -1,5 +1,6 @@
 package project.model;
 
+import javafx.application.Platform;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 
@@ -14,6 +15,7 @@ public class Matrix {
         fields = new Field[dimension][dimension];
 
         gridPane.getChildren().clear();
+
         for(int i = 0; i < dimension; i++) {
             for (int j = 0; j < dimension; j++){
                 fields[i][j] = new Field(getFieldOrdinalNumber(i, j));
@@ -23,11 +25,17 @@ public class Matrix {
             }
         }
 
-        gridPane.setGridLinesVisible(true);
         gridPane.setMaxSize(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
     }
 
     private int getFieldOrdinalNumber(int i, int j){
         return dimension * i + j + 1;
+    }
+
+    public synchronized void setFigurine(int i, int j, Figurine figurine){
+        Platform.runLater(() -> {
+            figurine.setFitHeight(fields[i][j].getHeight() - 30);
+            fields[i][j].getChildren().add(figurine);
+        });
     }
 }

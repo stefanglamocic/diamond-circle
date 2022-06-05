@@ -1,16 +1,15 @@
 package project;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.geometry.Insets;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.SelectionMode;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import project.model.Figurine;
-import project.model.Matrix;
+import javafx.scene.text.Font;
+import javafx.util.Callback;
+import project.model.*;
+
+import java.util.*;
 
 public class Controller {
     @FXML
@@ -24,17 +23,45 @@ public class Controller {
     @FXML
     private ListView<Figurine> figurineListView;
     @FXML
+    private ToggleGroup toggleGroupDimensions;
+    @FXML
+    private ToggleGroup toggleGroupPlayers;
+    @FXML
     private HBox playersHBox;
 
     private Matrix matrix;
     private Timer timer;
     private static int gameCount;
+    private static int playersNumber = 2;
+    private static int matrixDimension = 7;
+    private Player[] players = new Player[playersNumber];
+
+
     public static final String gameDurationText = "Vrijeme trajanja igre: ";
     public static final String gameCountText = "Trenutni broj odigranih igara: ";
 
     public void initialize(){
         figurineListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-        matrix = new Matrix(gridPane, 10);
+        generatePlayers();
+        matrix = new Matrix(gridPane, matrixDimension);
+
+        figurineListView.setCellFactory(new Callback<>() {
+            @Override
+            public ListCell<Figurine> call(ListView<Figurine> figurineListView) {
+                return new ListCell<>(){
+                    @Override
+                    protected void updateItem(Figurine item, boolean empty){
+                        super.updateItem(item, empty);
+                        if(empty)
+                            setText(null);
+                        else{
+                            setText(item.getName());
+                            setTextFill(item.getFigurineColor());
+                        }
+                    }
+                };
+            }
+        });
     }
 
     @FXML
@@ -50,5 +77,72 @@ public class Controller {
             gameTimeLabel.setText(gameDurationText + "0:00");
             gameCountLabel.setText(gameCountText + gameCount);
         }
+    }
+
+    @FXML
+    public void dimensionSelected(){
+        RadioMenuItem item = (RadioMenuItem) toggleGroupDimensions.getSelectedToggle();
+        String value = item.getText();
+
+        switch (value){
+            case "7x7": matrixDimension = 7; break;
+            case "8x8": matrixDimension = 8; break;
+            case "9x9": matrixDimension = 9; break;
+            case "10x10": matrixDimension = 10; break;
+        }
+
+        matrix = new Matrix(gridPane, matrixDimension);
+    }
+
+    private Object[] colorRandomizer(int playersNumber){
+        Random rng = new Random();
+        Set<Color> colors = new HashSet<>();
+
+        while(colors.size() < playersNumber){
+            int value = rng.nextInt(4000);
+            Color color = null;
+            if(value < 1000)
+                color = Color.RED;
+            else if(value > 1000 && value < 2000)
+                color = Color.BLUE;
+            else if(value > 2000 && value < 3000)
+                color = Color.YELLOW;
+            else
+                color = Color.GREEN;
+            colors.add(color);
+        }
+        return colors.toArray();
+    }
+
+    @FXML
+    public void playersSelected(){
+        RadioMenuItem item = (RadioMenuItem) toggleGroupPlayers.getSelectedToggle();
+        String value = item.getText();
+
+        switch (value){
+            case "2 players": playersNumber = 2; break;
+            case "3 players": playersNumber = 3; break;
+            case "4 players": playersNumber = 4; break;
+        }
+
+        generatePlayers();
+    }
+
+    private void generatePlayers(){
+        playersHBox.getChildren().clear();
+        players = new Player[playersNumber];
+        Object[] colors = colorRandomizer(playersNumber);
+        for(int i = 0; i < playersNumber; i++){
+            players[i] = new Player("Igrač" + (i + 1), (Color) colors[i]);
+            Label label = new Label(players[i].getName());
+            label.setFont(new Font("Arial Bold", 17));
+            label.setTextFill(players[i].getPlayerColor());
+            playersHBox.getChildren().add(label);
+        }
+    }
+
+    @FXML
+    public void exitApplication(){
+        Platform.exit();
     }
 }

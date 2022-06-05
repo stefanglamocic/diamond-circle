@@ -9,10 +9,31 @@
     <MenuBar>
         <Menu text="Game...">
             <MenuItem fx:id="startStopItem" text="Start" onAction="#startStopAction"/>
+            <SeparatorMenuItem/>
+            <MenuItem text="Exit" onAction="#exitApplication"/>
         </Menu>
         <Menu text="Configure">
-            <MenuItem text="Players"></MenuItem>
-            <MenuItem text="Matrix dimension"></MenuItem>
+            <fx:define>
+                <ToggleGroup fx:id="toggleGroupPlayers"/>
+            </fx:define>
+
+            <fx:define>
+                <ToggleGroup fx:id="toggleGroupDimensions"/>
+            </fx:define>
+
+            <Menu text="Players">
+                <RadioMenuItem text="2 players" toggleGroup="$toggleGroupPlayers" selected="true" onAction="#playersSelected"/>
+                <RadioMenuItem text="3 players" toggleGroup="$toggleGroupPlayers" onAction="#playersSelected"/>
+                <RadioMenuItem text="4 players" toggleGroup="$toggleGroupPlayers" onAction="#playersSelected"/>
+            </Menu>
+
+            <Menu text="Matrix dimension">
+                <RadioMenuItem text="7x7" toggleGroup="$toggleGroupDimensions" selected="true" onAction="#dimensionSelected"/>
+                <RadioMenuItem text="8x8" toggleGroup="$toggleGroupDimensions" onAction="#dimensionSelected"/>
+                <RadioMenuItem text="9x9" toggleGroup="$toggleGroupDimensions" onAction="#dimensionSelected"/>
+                <RadioMenuItem text="10x10" toggleGroup="$toggleGroupDimensions" onAction="#dimensionSelected"/>
+            </Menu>
+
         </Menu>
     </MenuBar>
 
@@ -53,10 +74,11 @@
         </padding>
         <top>
             <HBox fx:id="playersHBox" prefHeight="60" style="-fx-border-color:black; -fx-border-width: 1; -fx-border-style: solid;"
-                  alignment="CENTER">
+                  alignment="CENTER" spacing="120">
                 <BorderPane.margin>
                     <Insets bottom="10"/>
                 </BorderPane.margin>
+
             </HBox>
         </top>
 
@@ -67,15 +89,15 @@
         <center>
             <VBox>
                 <padding>
-                    <Insets left="10" right="10"/>
+                    <Insets left="10" />
                 </padding>
-                <HBox VBox.vgrow="ALWAYS" spacing="20">
-                    <GridPane fx:id="gridPane" HBox.hgrow="ALWAYS"/>
+                <HBox VBox.vgrow="ALWAYS">
+                    <GridPane fx:id="gridPane" HBox.hgrow="ALWAYS" hgap="0.5" vgap="0.5"/>
                     <padding>
-                        <Insets left="50" bottom="20"/>
+                        <Insets left="70" bottom="20"/>
                     </padding>
 
-                    <Region HBox.hgrow="SOMETIMES"/>
+                    <Region HBox.hgrow="ALWAYS"/>
 
                     <VBox style="-fx-border-color:black; -fx-border-width: 1; -fx-border-style: solid;" alignment="CENTER"
                         minWidth="250" HBox.hgrow="ALWAYS">
@@ -91,7 +113,7 @@
                               HBox.hgrow="ALWAYS" maxWidth="Infinity" alignment="CENTER">
                     </VBox>
                     <VBox alignment="CENTER" HBox.hgrow="SOMETIMES" prefWidth="190">
-                        <Button text="Prikaz liste fajlova sa rezultatima" wrapText="true" prefWidth="130" textAlignment="CENTER">
+                        <Button text="Prikaz liste fajlova sa rezultatima" wrapText="true" prefWidth="120" textAlignment="CENTER">
                             <font>
                                 <Font size="14"/>
                             </font>

@@ -5,7 +5,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 
 public class Field extends StackPane{
-    private int ordinalNumber;
+    private final int ordinalNumber;
     private int diamonds;
     private boolean hole;
     private Figurine figurine;
@@ -18,6 +18,9 @@ public class Field extends StackPane{
         StackPane.setAlignment(label, Pos.CENTER);
         this.getChildren().add(label);
         setMinSize(50, 50);
+        setStyle("-fx-border-color:black; -fx-border-width: 0.3; -fx-border-style: solid;");
     }
+
+    public int getOrdinalNumber(){ return ordinalNumber; }
 
 }
