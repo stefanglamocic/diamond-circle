@@ -45,12 +45,19 @@
         </Label>
     </HBox>
 
+    <Separator/>
+
     <BorderPane VBox.vgrow="ALWAYS">
         <padding>
             <Insets topRightBottomLeft="10"/>
         </padding>
         <top>
-            <!--     IGRACI >-->
+            <HBox fx:id="playersHBox" prefHeight="60" style="-fx-border-color:black; -fx-border-width: 1; -fx-border-style: solid;"
+                  alignment="CENTER">
+                <BorderPane.margin>
+                    <Insets bottom="10"/>
+                </BorderPane.margin>
+            </HBox>
         </top>
 
         <left>
@@ -60,10 +67,24 @@
         <center>
             <VBox>
                 <padding>
-                    <Insets left="10"/>
+                    <Insets left="10" right="10"/>
                 </padding>
-                <HBox VBox.vgrow="ALWAYS">
-                    <GridPane fx:id="gridPane"/>
+                <HBox VBox.vgrow="ALWAYS" spacing="20">
+                    <GridPane fx:id="gridPane" HBox.hgrow="ALWAYS"/>
+                    <padding>
+                        <Insets left="50" bottom="20"/>
+                    </padding>
+
+                    <Region HBox.hgrow="SOMETIMES"/>
+
+                    <VBox style="-fx-border-color:black; -fx-border-width: 1; -fx-border-style: solid;" alignment="CENTER"
+                        minWidth="250" HBox.hgrow="ALWAYS">
+                        <Label text="Trenutna karta">
+                            <font>
+                                <Font size="16"/>
+                            </font>
+                        </Label>
+                    </VBox>
                 </HBox>
                 <HBox alignment="CENTER" prefHeight="190" spacing="20">
                     <VBox style="-fx-border-color:black; -fx-border-width: 1; -fx-border-style: solid;"

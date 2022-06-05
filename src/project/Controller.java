@@ -1,12 +1,16 @@
 package project;
 
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SelectionMode;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import project.model.Figurine;
+import project.model.Matrix;
 
 public class Controller {
     @FXML
@@ -19,7 +23,10 @@ public class Controller {
     public Label gameTimeLabel;
     @FXML
     private ListView<Figurine> figurineListView;
+    @FXML
+    private HBox playersHBox;
 
+    private Matrix matrix;
     private Timer timer;
     private static int gameCount;
     public static final String gameDurationText = "Vrijeme trajanja igre: ";
@@ -27,6 +34,7 @@ public class Controller {
 
     public void initialize(){
         figurineListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        matrix = new Matrix(gridPane, 10);
     }
 
     @FXML
