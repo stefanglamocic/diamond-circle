@@ -1,8 +1,12 @@
 package project.model;
 
 import javafx.application.Platform;
+import javafx.scene.Node;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class Matrix {
     private int dimension;
@@ -33,9 +37,29 @@ public class Matrix {
     }
 
     public synchronized void setFigurine(int i, int j, Figurine figurine){
+        fields[i][j].setFigurine(figurine);
         Platform.runLater(() -> {
             figurine.setFitHeight(fields[i][j].getHeight() - 30);
+            figurine.setFitWidth(fields[i][j].getWidth() - 20);
             fields[i][j].getChildren().add(figurine);
         });
+    }
+
+    public synchronized void setHole(int i, int j, Hole hole){
+        fields[i][j].setHole(hole);
+        Platform.runLater(() -> {
+            hole.setFitHeight(fields[i][j].getHeight() - 20);
+            hole.setFitWidth(fields[i][j].getWidth() - 20);
+            fields[i][j].getChildren().add(1, hole);
+        });
+    }
+
+    public synchronized void removeHole(int i, int j){
+        if(fields[i][j].isHole()){
+            fields[i][j].removeHole();
+            Platform.runLater(() -> {
+                fields[i][j].getChildren().remove(1);
+            });
+        }
     }
 }

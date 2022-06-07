@@ -37,4 +37,6 @@ public class Player {
     public String getName(){ return name; }
 
     public javafx.scene.paint.Color getPlayerColor(){ return color.getColor(); }
+
+    public Figurine getFigurine(int i){ return figurines[i]; }
 }

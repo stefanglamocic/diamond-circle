@@ -7,7 +7,7 @@ import javafx.scene.layout.StackPane;
 public class Field extends StackPane{
     private final int ordinalNumber;
     private int diamonds;
-    private boolean hole;
+    private Hole hole;
     private Figurine figurine;
     private GhostFigurine ghost;
 
@@ -23,4 +23,11 @@ public class Field extends StackPane{
 
     public int getOrdinalNumber(){ return ordinalNumber; }
 
+    public void setFigurine(Figurine figurine){ this.figurine = figurine; }
+
+    public void setHole(Hole hole){ this.hole = hole; }
+
+    public void removeHole(){ hole = null; }
+
+    public boolean isHole(){ return hole != null; }
 }
