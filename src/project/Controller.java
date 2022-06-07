@@ -1,8 +1,11 @@
 package project;
 
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
@@ -35,6 +38,7 @@ public class Controller {
     private static int playersNumber = 2;
     private static int matrixDimension = 7;
     private Player[] players = new Player[playersNumber];
+    private ObservableList<Figurine> figurines;
 
 
     public static final String gameDurationText = "Vrijeme trajanja igre: ";
@@ -52,11 +56,17 @@ public class Controller {
                     @Override
                     protected void updateItem(Figurine item, boolean empty){
                         super.updateItem(item, empty);
-                        if(empty)
+                        if(empty){
                             setText(null);
+                            setGraphic(null);
+                        }
                         else{
                             setText(item.getName());
                             setTextFill(item.getFigurineColor());
+                            ImageView imageView = new ImageView(item.getImage());
+                            imageView.setFitWidth(50);
+                            imageView.setFitHeight(42);
+                            setGraphic(imageView);
                         }
                     }
                 };
@@ -126,19 +136,24 @@ public class Controller {
         }
 
         generatePlayers();
+        matrix = new Matrix(gridPane, matrixDimension);
     }
 
     private void generatePlayers(){
+        Figurine.figurineCounter = 0;
+        figurines = FXCollections.observableArrayList();
         playersHBox.getChildren().clear();
         players = new Player[playersNumber];
         Object[] colors = colorRandomizer(playersNumber);
         for(int i = 0; i < playersNumber; i++){
             players[i] = new Player("Igrač" + (i + 1), (Color) colors[i]);
+            figurines.addAll(players[i].getFigurines());
             Label label = new Label(players[i].getName());
             label.setFont(new Font("Arial Bold", 17));
             label.setTextFill(players[i].getPlayerColor());
             playersHBox.getChildren().add(label);
         }
+        figurineListView.setItems(figurines);
     }
 
     @FXML

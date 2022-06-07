@@ -3,6 +3,8 @@ package project.model;
 import javafx.scene.image.ImageView;
 
 public abstract class Figurine extends ImageView implements Runnable{
+    public static int figurineCounter;
+
     private final String name;
     private final Color color;
     private int diamonds;
@@ -11,6 +13,7 @@ public abstract class Figurine extends ImageView implements Runnable{
     public Figurine(Color color, String name){
         this.color = color;
         this.name = name;
+        figurineCounter++;
         setPreserveRatio(true);
         setSmooth(true);
         setCache(true);

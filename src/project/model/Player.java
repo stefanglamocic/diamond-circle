@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class Player {
     private final String name;
-    private Figurine[] figurines;
+    private final Figurine[] figurines;
     private final Color color;
 
     public Player(String name, Color color){
@@ -20,13 +20,13 @@ public class Player {
         for(int i = 0; i < 4; i++){
             switch(rng.nextInt(3)){
                 case 0:
-                    temp[i] = new RegularFigurine(color, "Obicna figura " + i + " (" + name + ")");
+                    temp[i] = new RegularFigurine(color, "Figura " + (Figurine.figurineCounter + 1) + " - obična");
                     break;
                 case 1:
-                    temp[i] = new FlyingFigurine(color, "Leteca figura " + i + " (" + name + ")");
+                    temp[i] = new FlyingFigurine(color, "Figura " + (Figurine.figurineCounter + 1) + " - leteća");
                     break;
                 case 2:
-                    temp[i] = new FastFigurine(color, "Brza figura " + i + " (" + name + ")");
+                    temp[i] = new FastFigurine(color, "Figura " + (Figurine.figurineCounter + 1) + " - super brza");
                     break;
             }
         }
@@ -38,5 +38,5 @@ public class Player {
 
     public javafx.scene.paint.Color getPlayerColor(){ return color.getColor(); }
 
-    public Figurine getFigurine(int i){ return figurines[i]; }
+    public Figurine[] getFigurines(){ return figurines; }
 }
