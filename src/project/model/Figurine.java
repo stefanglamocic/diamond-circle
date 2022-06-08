@@ -1,16 +1,21 @@
 package project.model;
 
+import javafx.application.Platform;
 import javafx.scene.image.ImageView;
+
+import java.util.List;
 
 public abstract class Figurine extends ImageView implements Runnable{
     public static int figurineCounter;
 
     private final String name;
     private final Color color;
+    private Matrix matrix;
     private int diamonds;
     private Thread thread;
 
-    public Figurine(Color color, String name){
+    public Figurine(Matrix matrix, Color color, String name){
+        this.matrix = matrix;
         this.color = color;
         this.name = name;
         figurineCounter++;
@@ -25,12 +30,27 @@ public abstract class Figurine extends ImageView implements Runnable{
 
     public javafx.scene.paint.Color getFigurineColor(){ return color.getColor(); }
 
-    public Figurine(){
+    public Figurine(Matrix matrix){
+        this.matrix = matrix;
         color = Color.INVISIBLE;
         name = "Duh figura";
     }
 
-    public void run(){}
+    public void run(){
+        List<Field> traversalRoute = matrix.getTraversalRoute();
+        for(int i = 0; i < traversalRoute.size(); i++){
+            if(i > 0)
+                traversalRoute.get(i - 1).removeFigurine();
+            matrix.setFigurine(traversalRoute.get(i), this);
+            try{
+                Thread.sleep(500);
+            }catch (InterruptedException e) {
+
+            }
+        }
+        traversalRoute.get(traversalRoute.size() - 1).removeFigurine();
+        Platform.runLater(() -> traversalRoute.get(traversalRoute.size() - 1).getChildren().remove(1));
+    }
 
     public void start(){
         thread.start();

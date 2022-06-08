@@ -21,4 +21,11 @@ public class Images {
     public static final Image yellowOwl = new Image("assets" + File.separator + "yellow_owl.png");
 
     public static final Image hole = new Image("assets" + File.separator + "hole.png");
+    public static final Image backCard = new Image("assets" + File.separator + "back_card.png");
+
+    public static final Image regularCardOne = new Image("assets" + File.separator + "regular_card1.png");
+    public static final Image regularCardTwo = new Image("assets" + File.separator + "regular_card2.png");
+    public static final Image regularCardThree = new Image("assets" + File.separator + "regular_card3.png");
+    public static final Image regularCardFour = new Image("assets" + File.separator + "regular_card4.png");
+    public static final Image specialCard = new Image("assets" + File.separator + "trap_card.png");
 }

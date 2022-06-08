@@ -3,6 +3,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.geometry.Insets?>
 
+<?import javafx.scene.image.ImageView?>
 <VBox fx:controller="project.Controller"
       xmlns:fx="http://javafx.com/fxml">
 
@@ -100,12 +101,19 @@
                     <Region HBox.hgrow="ALWAYS"/>
 
                     <VBox style="-fx-border-color:black; -fx-border-width: 1; -fx-border-style: solid;" alignment="CENTER"
-                        minWidth="250" HBox.hgrow="ALWAYS">
+                        minWidth="250" HBox.hgrow="ALWAYS" spacing="20">
+
+                        <padding>
+                            <Insets right="16" left="16" bottom="16" top="60"/>
+                        </padding>
+
                         <Label text="Trenutna karta">
                             <font>
                                 <Font size="16"/>
                             </font>
                         </Label>
+
+                        <StackPane fx:id="cardStack" VBox.vgrow="ALWAYS"/>
                     </VBox>
                 </HBox>
                 <HBox alignment="CENTER" prefHeight="190" spacing="20">

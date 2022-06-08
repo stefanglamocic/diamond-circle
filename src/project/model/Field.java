@@ -23,7 +23,9 @@ public class Field extends StackPane{
 
     public int getOrdinalNumber(){ return ordinalNumber; }
 
-    public void setFigurine(Figurine figurine){ this.figurine = figurine; }
+    public synchronized void setFigurine(Figurine figurine){ this.figurine = figurine; }
+
+    public synchronized void removeFigurine(){ figurine = null; }
 
     public void setHole(Hole hole){ this.hole = hole; }
 

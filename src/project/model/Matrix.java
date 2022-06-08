@@ -40,12 +40,12 @@ public class Matrix {
         return dimension * i + j + 1;
     }
 
-    public synchronized void setFigurine(int i, int j, Figurine figurine){
-        fields[i][j].setFigurine(figurine);
+    public synchronized void setFigurine(Field field, Figurine figurine){
+        field.setFigurine(figurine);
         Platform.runLater(() -> {
-            figurine.setFitHeight(fields[i][j].getHeight() - 30);
-            figurine.setFitWidth(fields[i][j].getWidth() - 20);
-            fields[i][j].getChildren().add(figurine);
+            figurine.setFitHeight(field.getHeight() - 33);
+            figurine.setFitWidth(field.getWidth() - 20);
+            field.getChildren().add(figurine);
         });
     }
 

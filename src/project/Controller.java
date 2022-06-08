@@ -8,6 +8,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
 import javafx.util.Callback;
 import project.model.*;
@@ -31,6 +32,8 @@ public class Controller {
     private ToggleGroup toggleGroupPlayers;
     @FXML
     private HBox playersHBox;
+    @FXML
+    private StackPane cardStack;
 
     private Matrix matrix;
     private Timer timer;
@@ -39,6 +42,7 @@ public class Controller {
     private static int matrixDimension = 7;
     private Player[] players = new Player[playersNumber];
     private ObservableList<Figurine> figurines;
+    private List<Card> cardDeck;
 
 
     public static final String gameDurationText = "Vrijeme trajanja igre: ";
@@ -46,8 +50,9 @@ public class Controller {
 
     public void initialize(){
         figurineListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-        generatePlayers();
+        cardDeck = generateCardDeck();
         matrix = new Matrix(gridPane, matrixDimension);
+        generatePlayers();
 
         figurineListView.setCellFactory(new Callback<>() {
             @Override
@@ -78,14 +83,14 @@ public class Controller {
     public void startStopAction(){
         if(startStopItem.getText().equals("Start")){
             startStopItem.setText("Stop");
-            timer = new Timer(this);
+            //timer = new Timer(this);
         }
         else{
             startStopItem.setText("Start");
-            gameCount++;
+            /*gameCount++;
             timer.stopTimer();
             gameTimeLabel.setText(gameDurationText + "0:00");
-            gameCountLabel.setText(gameCountText + gameCount);
+            gameCountLabel.setText(gameCountText + gameCount);*/
         }
     }
 
@@ -102,6 +107,7 @@ public class Controller {
         }
 
         matrix = new Matrix(gridPane, matrixDimension);
+        generatePlayers();
     }
 
     private Object[] colorRandomizer(int playersNumber){
@@ -135,8 +141,8 @@ public class Controller {
             case "4 players": playersNumber = 4; break;
         }
 
-        generatePlayers();
         matrix = new Matrix(gridPane, matrixDimension);
+        generatePlayers();
     }
 
     private void generatePlayers(){
@@ -146,7 +152,7 @@ public class Controller {
         players = new Player[playersNumber];
         Object[] colors = colorRandomizer(playersNumber);
         for(int i = 0; i < playersNumber; i++){
-            players[i] = new Player("Igrač" + (i + 1), (Color) colors[i]);
+            players[i] = new Player(matrix, "Igrač" + (i + 1), (Color) colors[i]);
             figurines.addAll(players[i].getFigurines());
             Label label = new Label(players[i].getName());
             label.setFont(new Font("Arial Bold", 17));
@@ -159,5 +165,44 @@ public class Controller {
     @FXML
     public void exitApplication(){
         Platform.exit();
+    }
+
+    private void setCardDeck(){
+        cardStack.getChildren().clear();
+        ImageView deck = new ImageView(Images.backCard);
+        deck.setPreserveRatio(true);
+        deck.setSmooth(true);
+        deck.setCache(true);
+        deck.setFitWidth(290);
+        cardStack.getChildren().add(deck);
+    }
+
+    private List<Card> generateCardDeck(){
+        setCardDeck();
+        List<Card> cardDeck = new ArrayList<>();
+
+        for(int i = 0; i < 10; i++){
+            cardDeck.add(new RegularCard(1));
+            cardDeck.add(new RegularCard(2));
+            cardDeck.add(new RegularCard(3));
+            cardDeck.add(new RegularCard(4));
+        }
+
+        for(int i = 0; i < 12; i++)
+            cardDeck.add(new SpecialCard());
+
+        shuffleDeck(cardDeck);
+        return cardDeck;
+    }
+
+    private void shuffleDeck(List<Card> cardDeck){
+        Random rng = new Random();
+        for(int i = 0; i < 100; i++){
+            int j = rng.nextInt(52);
+            int k = rng.nextInt(52);
+
+            Card temp = cardDeck.set(j, cardDeck.get(k));
+            cardDeck.set(k, temp);
+        }
     }
 }
