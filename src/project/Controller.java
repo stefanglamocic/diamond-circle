@@ -205,4 +205,20 @@ public class Controller {
             cardDeck.set(k, temp);
         }
     }
+
+    public Card drawACard(){
+        Card drawnCard = cardDeck.remove(0);
+        cardDeck.add(drawnCard);
+        new Thread(() -> {
+            if(cardStack.getChildren().size() > 1)
+                Platform.runLater(() -> cardStack.getChildren().remove(1));
+            try{
+                Thread.sleep(350);
+            }catch (InterruptedException e){
+                //logger
+            }
+            Platform.runLater(() -> cardStack.getChildren().add(drawnCard));
+        }).start();
+        return drawnCard;
+    }
 }
