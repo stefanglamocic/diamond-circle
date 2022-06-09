@@ -1,10 +1,11 @@
 package project.model;
 
 import javafx.scene.image.Image;
+import project.Game;
 
 public class RegularFigurine extends Figurine{
-    public RegularFigurine(Matrix matrix, Color color, String name){
-        super(matrix, color, name);
+    public RegularFigurine(Game game, Color color, String name){
+        super(game, color, name);
         switch (color){
             case RED: setImage(Images.redTurtle); break;
             case BLUE: setImage(Images.blueTurtle); break;

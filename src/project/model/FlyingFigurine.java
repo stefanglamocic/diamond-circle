@@ -1,8 +1,10 @@
 package project.model;
 
+import project.Game;
+
 public class FlyingFigurine extends Figurine{
-    public FlyingFigurine(Matrix matrix, Color color, String name){
-        super(matrix, color, name);
+    public FlyingFigurine(Game game, Color color, String name){
+        super(game, color, name);
         switch (color){
             case RED: setImage(Images.redOwl); break;
             case BLUE: setImage(Images.blueOwl); break;

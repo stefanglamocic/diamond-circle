@@ -21,18 +21,20 @@ public class Matrix {
         fields = new Field[dimension][dimension];
         traversalRoute = new ArrayList<>();
 
-        gridPane.getChildren().clear();
+        Platform.runLater(() -> {
+            gridPane.getChildren().clear();
 
-        for(int i = 0; i < dimension; i++) {
-            for (int j = 0; j < dimension; j++){
-                fields[i][j] = new Field(getFieldOrdinalNumber(i, j));
-                GridPane.setVgrow(fields[i][j], Priority.ALWAYS);
-                GridPane.setHgrow(fields[i][j], Priority.ALWAYS);
-                gridPane.add(fields[i][j], j, i);
+            for(int i = 0; i < dimension; i++) {
+                for (int j = 0; j < dimension; j++){
+                    fields[i][j] = new Field(getFieldOrdinalNumber(i, j));
+                    GridPane.setVgrow(fields[i][j], Priority.ALWAYS);
+                    GridPane.setHgrow(fields[i][j], Priority.ALWAYS);
+                    gridPane.add(fields[i][j], j, i);
+                }
             }
-        }
+            gridPane.setMaxSize(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
+        });
 
-        gridPane.setMaxSize(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
         createTraversalRoute();
     }
 

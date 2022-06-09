@@ -1,21 +1,25 @@
 package project.model;
 
+import project.Game;
+
 import java.util.Random;
 
 public class Player extends Thread{
     private final String name;
     private final Figurine[] figurines;
     private final Color color;
-    private Matrix matrix;
-    private boolean over;
+    private Game game;
+    private boolean over, turn;
 
-    public Player(Matrix matrix, String name, Color color){
+    public Player(Game game, String name, Color color){
         setDaemon(true);
-        this.matrix = matrix;
+        this.game = game;
         this.name = name;
         this.color = color;
         figurines = generateFigurines(color);
     }
+
+    public void run(){}
 
     private Figurine[] generateFigurines(Color color){
         Random rng = new Random();
@@ -24,13 +28,13 @@ public class Player extends Thread{
         for(int i = 0; i < 4; i++){
             switch(rng.nextInt(3)){
                 case 0:
-                    temp[i] = new RegularFigurine(matrix, color, "Figura " + (Figurine.figurineCounter + 1) + " - obična");
+                    temp[i] = new RegularFigurine(game, color, "Figura " + (Figurine.figurineCounter + 1) + " - obična");
                     break;
                 case 1:
-                    temp[i] = new FlyingFigurine(matrix, color, "Figura " + (Figurine.figurineCounter + 1) + " - leteća");
+                    temp[i] = new FlyingFigurine(game, color, "Figura " + (Figurine.figurineCounter + 1) + " - leteća");
                     break;
                 case 2:
-                    temp[i] = new FastFigurine(matrix, color, "Figura " + (Figurine.figurineCounter + 1) + " - super brza");
+                    temp[i] = new FastFigurine(game, color, "Figura " + (Figurine.figurineCounter + 1) + " - super brza");
                     break;
             }
         }

@@ -18,6 +18,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Collectors;
 
 public class Controller {
     @FXML
@@ -128,24 +130,26 @@ public class Controller {
         resetGame();
     }
 
-    private Object[] colorRandomizer(int playersNumber){
-        Random rng = new Random();
-        Set<Color> colors = new HashSet<>();
+    private Color[] colorRandomizer(int playersNumber){
+        Color[] colors = new Color[playersNumber];
+        List<Integer> randomNums =
+        ThreadLocalRandom.current()
+                .ints(0, playersNumber)
+                .distinct()
+                .limit(playersNumber)
+                .boxed()
+                .collect(Collectors.toList());
 
-        while(colors.size() < playersNumber){
-            int value = rng.nextInt(4000);
-            Color color = null;
-            if(value < 1000)
-                color = Color.RED;
-            else if(value > 1000 && value < 2000)
-                color = Color.BLUE;
-            else if(value > 2000 && value < 3000)
-                color = Color.YELLOW;
-            else
-                color = Color.GREEN;
-            colors.add(color);
+        for(int i = 0; i < playersNumber; i++){
+            switch (randomNums.get(i)){
+                case 0: colors[i] = Color.RED; break;
+                case 1: colors[i] = Color.BLUE; break;
+                case 2: colors[i] = Color.YELLOW; break;
+                case 3: colors[i] = Color.GREEN; break;
+            }
         }
-        return colors.toArray();
+
+        return colors;
     }
 
     @FXML
@@ -165,18 +169,20 @@ public class Controller {
     private void generatePlayers(){
         Figurine.figurineCounter = 0;
         figurines = FXCollections.observableArrayList();
-        playersHBox.getChildren().clear();
+        Platform.runLater(() -> playersHBox.getChildren().clear());
+
         players = new Player[playersNumber];
-        Object[] colors = colorRandomizer(playersNumber);
+        Color[] colors = colorRandomizer(playersNumber);
         for(int i = 0; i < playersNumber; i++){
-            players[i] = new Player(matrix, "Igrač" + (i + 1), (Color) colors[i]);
+            players[i] = new Player(game, "Igrač" + (i + 1), colors[i]);
             figurines.addAll(players[i].getFigurines());
             Label label = new Label(players[i].getPlayerName());
             label.setFont(new Font("Arial Bold", 17));
             label.setTextFill(players[i].getPlayerColor());
-            playersHBox.getChildren().add(label);
+
+            Platform.runLater(() -> playersHBox.getChildren().add(label));
         }
-        figurineListView.setItems(figurines);
+        Platform.runLater(() -> figurineListView.setItems(figurines));
     }
 
     @FXML
@@ -196,21 +202,31 @@ public class Controller {
 
     public StackPane getCardStack(){ return cardStack; }
 
-    private void resetGame(){
+    public void resetGame(){
         gameStarted = false;
         startStopItem.setText("Start");
-        gameTimeLabel.setText(gameDurationText + "0:00");
-        gameCountLabel.setText(gameCountText + gameCount);
+        Platform.runLater(() -> {
+            gameTimeLabel.setText(gameDurationText + "0:00");
+            gameCountLabel.setText(gameCountText + gameCount);
+        });
 
         matrix = new Matrix(gridPane, matrixDimension);
-        generatePlayers();
         if(game != null)
             game.stopGame();
         game = new Game(this);
+        generatePlayers();
     }
 
     @FXML
     public void reset(){
         resetGame();
+    }
+
+    public Player[] getPlayers(){ return players; }
+
+    public HBox getPlayersHBox(){ return playersHBox; }
+
+    public void incrementGameCount(){
+        gameCount++;
     }
 }

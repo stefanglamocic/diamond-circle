@@ -1,18 +1,22 @@
 package project;
 
 import javafx.application.Platform;
+import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
-import project.Controller;
 import project.model.Card;
+import project.model.Player;
 import project.model.RegularCard;
 import project.model.SpecialCard;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Collectors;
 
 public class Game extends Thread{
-    private Controller controller;
+    private final Controller controller;
     private boolean pause;
     private final List<Card> cardDeck;
     private final StackPane cardStack;
@@ -26,15 +30,33 @@ public class Game extends Thread{
     }
 
     public void run(){
+        List<Integer> indexes = scrambleIndexes();
+        Player[] players = controller.getPlayers();
+        HBox playersHBox = controller.getPlayersHBox();
         timer = new Timer(this);
+
+        for(int i = 0; i < players.length; i++){
+            Label playerLabel = (Label)playersHBox.getChildren().get(indexes.get(i));
+            Platform.runLater(() -> playerLabel.setUnderline(true));
+            try{
+                Thread.sleep(1000);
+            }catch (InterruptedException e){}
+
+            Platform.runLater(() -> playerLabel.setUnderline(false));
+        }
+
+        //pokretanje threadova igraca
+            //pokretanje figura
+
+        //kraj
+        controller.incrementGameCount();
+        controller.resetGame();
     }
 
     public void stopGame(){
-        timer.stopTimer();
-    }
-
-    public synchronized boolean isPause() {
-        return pause;
+        //stopirati sve aktivne thread-ove
+        if(timer != null)
+            timer.stopTimer();
     }
 
     public synchronized void checkPause(){
@@ -84,5 +106,16 @@ public class Game extends Thread{
         Platform.runLater(() -> cardStack.getChildren().add(drawnCard));
 
         return drawnCard;
+    }
+
+    private List<Integer> scrambleIndexes(){
+        Player[] players = new Player[controller.getPlayers().length];
+
+        return ThreadLocalRandom.current()
+                .ints(0, players.length)
+                .distinct()
+                .limit(players.length)
+                .boxed()
+                .collect(Collectors.toList());
     }
 }

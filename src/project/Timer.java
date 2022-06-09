@@ -17,6 +17,7 @@ public class Timer implements Runnable{
     public void run(){
         int i = 0;
         while(true){
+            game.checkPause();
             try{
                 Thread.sleep(1000);
             }catch (InterruptedException e){
