@@ -52,7 +52,8 @@
 
         <Region HBox.hgrow="SOMETIMES"/>
 
-        <Label text="DiamondCircle" HBox.hgrow="ALWAYS">
+        <Label text="DiamondCircle" HBox.hgrow="ALWAYS" alignment="CENTER" prefHeight="34" prefWidth="220"
+               style="-fx-background-color: #fff3cd; -fx-border-color: #e6d19c; -fx-border-width: 1; -fx-text-fill: red">
             <font>
                 <Font name="Comic Sans MS bold" size="20"/>
             </font>
@@ -107,9 +108,10 @@
                             <Insets right="16" left="16" bottom="16" top="60"/>
                         </padding>
 
-                        <Label text="Trenutna karta">
+                        <Label text="Trenutna karta" alignment="CENTER" prefHeight="28" prefWidth="180"
+                               style="-fx-background-color: #d9e8fd; -fx-border-color: #c0cdd8; -fx-border-width: 1;">
                             <font>
-                                <Font size="16"/>
+                                <Font name="Arial bold" size="14"/>
                             </font>
                         </Label>
 
@@ -118,7 +120,18 @@
                 </HBox>
                 <HBox alignment="CENTER" prefHeight="190" spacing="20">
                     <VBox style="-fx-border-color:black; -fx-border-width: 1; -fx-border-style: solid;"
-                              HBox.hgrow="ALWAYS" maxWidth="Infinity" alignment="CENTER">
+                              HBox.hgrow="ALWAYS" maxWidth="Infinity" alignment="CENTER" spacing="20">
+                        <Label text="Opis poteza:">
+                            <font>
+                                <Font name="Arial bold" size="13"/>
+                            </font>
+                        </Label>
+
+                        <Label fx:id="turnDescription" wrapText="true" maxWidth="220">
+                            <font>
+                                <Font name="Arial" size="13"/>
+                            </font>
+                        </Label>
                     </VBox>
                     <VBox alignment="CENTER" HBox.hgrow="SOMETIMES" prefWidth="190">
                         <Button text="Prikaz liste fajlova sa rezultatima" wrapText="true" prefWidth="120" textAlignment="CENTER">

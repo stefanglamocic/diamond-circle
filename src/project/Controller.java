@@ -34,6 +34,8 @@ public class Controller {
     private HBox playersHBox;
     @FXML
     private StackPane cardStack;
+    @FXML
+    private Label turnDescription;
 
     private Matrix matrix;
     private Timer timer;
