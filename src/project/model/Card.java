@@ -11,4 +11,8 @@ public abstract class Card extends ImageView {
         setFitWidth(290);
     }
 
+    public int effect(Matrix matrix){
+        matrix.removeHoles();
+        return 0;
+    }
 }

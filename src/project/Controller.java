@@ -49,6 +49,11 @@ public class Controller {
 
     public static final String gameDurationText = "Vrijeme trajanja igre: ";
     public static final String gameCountText = "Trenutni broj odigranih igara: ";
+    public static final int numOfHoles;
+
+    static{
+        numOfHoles = 6;
+    }
 
     public void initialize(){
         figurineListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
@@ -156,7 +161,7 @@ public class Controller {
         for(int i = 0; i < playersNumber; i++){
             players[i] = new Player(matrix, "Igrač" + (i + 1), (Color) colors[i]);
             figurines.addAll(players[i].getFigurines());
-            Label label = new Label(players[i].getName());
+            Label label = new Label(players[i].getPlayerName());
             label.setFont(new Font("Arial Bold", 17));
             label.setTextFill(players[i].getPlayerColor());
             playersHBox.getChildren().add(label);
@@ -193,19 +198,8 @@ public class Controller {
         for(int i = 0; i < 12; i++)
             cardDeck.add(new SpecialCard());
 
-        shuffleDeck(cardDeck);
+        Collections.shuffle(cardDeck);
         return cardDeck;
-    }
-
-    private void shuffleDeck(List<Card> cardDeck){
-        Random rng = new Random();
-        for(int i = 0; i < 100; i++){
-            int j = rng.nextInt(52);
-            int k = rng.nextInt(52);
-
-            Card temp = cardDeck.set(j, cardDeck.get(k));
-            cardDeck.set(k, temp);
-        }
     }
 
     public Card drawACard(){

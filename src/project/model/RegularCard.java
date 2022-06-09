@@ -13,5 +13,8 @@ public class RegularCard extends Card{
         }
     }
 
-    public int getHops(){ return hops; }
+    public int effect(Matrix matrix){
+        super.effect(matrix);
+        return hops;
+    }
 }

@@ -49,22 +49,27 @@ public class Matrix {
         });
     }
 
-    public synchronized void setHole(int i, int j, Hole hole){
-        fields[i][j].setHole(hole);
+    public synchronized void setHole(Field field, Hole hole){
+        field.setHole(hole);
         Platform.runLater(() -> {
-            hole.setFitHeight(fields[i][j].getHeight() - 20);
-            hole.setFitWidth(fields[i][j].getWidth() - 20);
-            fields[i][j].getChildren().add(1, hole);
+            hole.setFitHeight(field.getHeight() - 20);
+            hole.setFitWidth(field.getWidth() - 20);
+            field.getChildren().add(1, hole);
         });
     }
 
-    public synchronized void removeHole(int i, int j){
-        if(fields[i][j].isHole()){
-            fields[i][j].removeHole();
+    private synchronized void removeHole(Field field){
+        if(field.isHole()){
+            field.removeHole();
             Platform.runLater(() -> {
-                fields[i][j].getChildren().remove(1);
+                field.getChildren().remove(1);
             });
         }
+    }
+
+    public void removeHoles(){
+        for(Field f : traversalRoute)
+            removeHole(f);
     }
 
     private void spiralDiamondView(Field[][] matrix, int x, int y, int m, int n, int k){
