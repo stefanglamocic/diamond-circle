@@ -5,10 +5,10 @@ import static project.Controller.*;
 
 public class Timer implements Runnable{
     private Thread thread;
-    private Controller controller;
+    private Game game;
 
-    public Timer(Controller controller){
-        this.controller = controller;
+    public Timer(Game game){
+        this.game = game;
         thread = new Thread(this);
         thread.setDaemon(true);
         thread.start();
@@ -23,8 +23,9 @@ public class Timer implements Runnable{
                 return;
             }
             i++;
+            game.checkPause();
             int finalI = i;
-            Platform.runLater(() -> controller.gameTimeLabel.setText(gameDurationText + getTime(finalI)));
+            Platform.runLater(() -> game.getController().gameTimeLabel.setText(gameDurationText + getTime(finalI)));
 
             if(Thread.interrupted())
                 return;

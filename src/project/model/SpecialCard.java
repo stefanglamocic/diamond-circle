@@ -16,12 +16,6 @@ public class SpecialCard extends Card{
         List<Field> traversalRoute = matrix.getTraversalRoute();
         Random rng = new Random();
 
-        try{
-            Thread.sleep(350);
-        }catch (InterruptedException e){
-            //logger
-        }
-
         ThreadLocalRandom.current()
                 .ints(0, traversalRoute.size())
                 .distinct()

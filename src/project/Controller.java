@@ -13,6 +13,10 @@ import javafx.scene.text.Font;
 import javafx.util.Callback;
 import project.model.*;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.*;
 
 public class Controller {
@@ -37,29 +41,36 @@ public class Controller {
     @FXML
     private Label turnDescription;
 
+    public static boolean gameStarted;
     private Matrix matrix;
-    private Timer timer;
     private static int gameCount;
     private static int playersNumber = 2;
     private static int matrixDimension = 7;
     private Player[] players = new Player[playersNumber];
     private ObservableList<Figurine> figurines;
-    private List<Card> cardDeck;
-
+    private Game game;
 
     public static final String gameDurationText = "Vrijeme trajanja igre: ";
     public static final String gameCountText = "Trenutni broj odigranih igara: ";
     public static final int numOfHoles;
 
     static{
-        numOfHoles = 6;
+        int tempHoles = 5;
+        Properties properties = new Properties();
+        try(InputStream is = new FileInputStream("src" + File.separator + "data.properties")){
+            properties.load(is);
+            tempHoles = Integer.parseInt(properties.getProperty("numOfHoles"));
+        }catch (IOException e){
+            //logger
+        }finally {
+            numOfHoles = tempHoles;
+        }
     }
 
     public void initialize(){
         figurineListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-        cardDeck = generateCardDeck();
-        matrix = new Matrix(gridPane, matrixDimension);
-        generatePlayers();
+        setCardDeck();
+        resetGame();
 
         figurineListView.setCellFactory(new Callback<>() {
             @Override
@@ -90,14 +101,15 @@ public class Controller {
     public void startStopAction(){
         if(startStopItem.getText().equals("Start")){
             startStopItem.setText("Stop");
-            //timer = new Timer(this);
+            if(!gameStarted) {
+                gameStarted = true;
+                game.start();
+            }
+            game.setPause(false);
         }
         else{
             startStopItem.setText("Start");
-            /*gameCount++;
-            timer.stopTimer();
-            gameTimeLabel.setText(gameDurationText + "0:00");
-            gameCountLabel.setText(gameCountText + gameCount);*/
+            game.setPause(true);
         }
     }
 
@@ -113,8 +125,7 @@ public class Controller {
             case "10x10": matrixDimension = 10; break;
         }
 
-        matrix = new Matrix(gridPane, matrixDimension);
-        generatePlayers();
+        resetGame();
     }
 
     private Object[] colorRandomizer(int playersNumber){
@@ -148,8 +159,7 @@ public class Controller {
             case "4 players": playersNumber = 4; break;
         }
 
-        matrix = new Matrix(gridPane, matrixDimension);
-        generatePlayers();
+        resetGame();
     }
 
     private void generatePlayers(){
@@ -184,37 +194,23 @@ public class Controller {
         cardStack.getChildren().add(deck);
     }
 
-    private List<Card> generateCardDeck(){
-        setCardDeck();
-        List<Card> cardDeck = new ArrayList<>();
+    public StackPane getCardStack(){ return cardStack; }
 
-        for(int i = 0; i < 10; i++){
-            cardDeck.add(new RegularCard(1));
-            cardDeck.add(new RegularCard(2));
-            cardDeck.add(new RegularCard(3));
-            cardDeck.add(new RegularCard(4));
-        }
+    private void resetGame(){
+        gameStarted = false;
+        startStopItem.setText("Start");
+        gameTimeLabel.setText(gameDurationText + "0:00");
+        gameCountLabel.setText(gameCountText + gameCount);
 
-        for(int i = 0; i < 12; i++)
-            cardDeck.add(new SpecialCard());
-
-        Collections.shuffle(cardDeck);
-        return cardDeck;
+        matrix = new Matrix(gridPane, matrixDimension);
+        generatePlayers();
+        if(game != null)
+            game.stopGame();
+        game = new Game(this);
     }
 
-    public Card drawACard(){
-        Card drawnCard = cardDeck.remove(0);
-        cardDeck.add(drawnCard);
-        new Thread(() -> {
-            if(cardStack.getChildren().size() > 1)
-                Platform.runLater(() -> cardStack.getChildren().remove(1));
-            try{
-                Thread.sleep(350);
-            }catch (InterruptedException e){
-                //logger
-            }
-            Platform.runLater(() -> cardStack.getChildren().add(drawnCard));
-        }).start();
-        return drawnCard;
+    @FXML
+    public void reset(){
+        resetGame();
     }
 }
