@@ -19,6 +19,7 @@ public class Game extends Thread{
     private final StackPane cardStack;
     private Timer timer;
     private List<Integer> indexes;
+    private int turnIndex = 0;
 
     public Game(Controller controller){
         this.controller = controller;
@@ -29,18 +30,9 @@ public class Game extends Thread{
     }
 
     public void run(){
+
         timer = new Timer(this);
-
-        //HBox playersHBox = controller.getPlayersHBox();
-        /*
-            Player player = players[indexes.get(i)];
-            Label playerLabel = (Label)playersHBox.getChildren().get(indexes.get(i));
-            Platform.runLater(() -> playerLabel.setUnderline(true));
-
-            player.start();
-            player.setStarted(true);
-
-            Platform.runLater(() -> playerLabel.setUnderline(false));*/
+        controller.getPlayers()[indexes.get(0)].setTurn(true);
 
         for(Player p : controller.getPlayers())
             p.start();
@@ -102,16 +94,12 @@ public class Game extends Thread{
         return cardDeck;
     }
 
-    public Card drawACard(){
+    public Card drawACard() throws InterruptedException{
         Card drawnCard = cardDeck.remove(0);
         cardDeck.add(drawnCard);
         if(cardStack.getChildren().size() > 1)
             Platform.runLater(() -> cardStack.getChildren().remove(1));
-        try{
-            Thread.sleep(350);
-        }catch (InterruptedException e){
-            //logger
-        }
+        Thread.sleep(350);
         Platform.runLater(() -> cardStack.getChildren().add(drawnCard));
 
         return drawnCard;
@@ -126,5 +114,22 @@ public class Game extends Thread{
                 .limit(players.length)
                 .boxed()
                 .collect(Collectors.toList());
+    }
+
+    public synchronized void startTurn(Player player){
+        while (!player.isTurn()){
+            try{
+                wait();
+            }catch (InterruptedException e){
+                //logger
+            }
+        }
+    }
+
+    public synchronized void endTurn(){
+        controller.getPlayers()[indexes.get(turnIndex)].setTurn(false);
+        turnIndex = (turnIndex + 1) % indexes.size();
+        controller.getPlayers()[indexes.get(turnIndex)].setTurn(true);
+        notifyAll();
     }
 }

@@ -43,25 +43,28 @@ public class Matrix {
     }
 
     public synchronized void setFigurine(Field field, Figurine figurine){
-        field.setFigurine(figurine);
         Platform.runLater(() -> {
-            figurine.setFitHeight(field.getHeight() - 33);
+            figurine.setFitHeight(field.getHeight() - 35);
             figurine.setFitWidth(field.getWidth() - 20);
-            field.getChildren().add(figurine);
+            if(!field.getChildren().contains(figurine))
+                field.setFigurine(figurine);
         });
     }
 
     public void removeFigurine(Field field) throws InterruptedException{
-        Figurine figurine = field.getFigurine();
-        field.removeFigurine();
-        figurine.setEnd(true);
-        //smanjivanje figure(efekat propadanja)
-        Platform.runLater(() -> figurine.setFitHeight(field.getHeight() - 60));
-        Thread.sleep(100);
-        Platform.runLater(() -> figurine.setFitHeight(field.getHeight() - 100));
-        Thread.sleep(100);
-        //propadanje figure
-        Platform.runLater(() -> field.getChildren().remove(figurine));
+        Platform.runLater(() -> {
+            Figurine figurine = field.getFigurine();
+            field.removeFigurine();
+            figurine.setEnd(true);
+            //smanjivanje figure(efekat propadanja)
+            /*Platform.runLater(() -> figurine.setFitHeight(field.getHeight() - 60));
+            Thread.sleep(100);
+            Platform.runLater(() -> figurine.setFitHeight(field.getHeight() - 100));
+            Thread.sleep(100);*/
+            //propadanje figure
+            Platform.runLater(() -> field.getChildren().remove(figurine));
+        });
+
     }
 
     public synchronized void setHole(Field field, Hole hole){
@@ -116,10 +119,13 @@ public class Matrix {
     }
 
     private void createTraversalRoute(){
-        if(dimension % 2 != 0)
-            spiralDiamondView(fields, 0, 0, dimension - 1, dimension - 1, (dimension * dimension) - ((dimension + 1) / 2) * 4);
-        else
-            spiralDiamondView(fields, 0, 0, dimension - 2, dimension - 2, (dimension * dimension) - ((dimension + 1) / 2) * 4);
+        Platform.runLater(() -> {
+            if(dimension % 2 != 0)
+                spiralDiamondView(fields, 0, 0, dimension - 1, dimension - 1, (dimension * dimension) - ((dimension + 1) / 2) * 4);
+            else
+                spiralDiamondView(fields, 0, 0, dimension - 2, dimension - 2, (dimension * dimension) - ((dimension + 1) / 2) * 4);
+        });
+
     }
 
     public List<Field> getTraversalRoute(){ return traversalRoute; }

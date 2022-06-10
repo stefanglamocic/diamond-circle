@@ -3,8 +3,8 @@ package project.model;
 import project.Game;
 
 public class FastFigurine extends Figurine{
-    public FastFigurine(Game game, Color color, String name){
-        super(game, color, name);
+    public FastFigurine(Game game, Player player, Color color, String name){
+        super(game, player, color, name);
         switch (color){
             case RED: setImage(Images.redCat); break;
             case BLUE: setImage(Images.blueCat); break;

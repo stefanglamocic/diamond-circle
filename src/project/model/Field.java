@@ -1,5 +1,6 @@
 package project.model;
 
+import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
@@ -23,7 +24,10 @@ public class Field extends StackPane{
 
     public int getOrdinalNumber(){ return ordinalNumber; }
 
-    public synchronized void setFigurine(Figurine figurine){ this.figurine = figurine; }
+    public synchronized void setFigurine(Figurine figurine){
+        this.figurine = figurine;
+        getChildren().add(figurine);
+    }
 
     public synchronized Figurine getFigurine(){ return figurine; }
 
@@ -36,4 +40,6 @@ public class Field extends StackPane{
     public void removeHole(){ hole = null; }
 
     public boolean isHole(){ return hole != null; }
+
+    public boolean isOccupied(){ return figurine != null; }
 }

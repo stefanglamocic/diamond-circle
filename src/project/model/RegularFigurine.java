@@ -4,8 +4,8 @@ import javafx.scene.image.Image;
 import project.Game;
 
 public class RegularFigurine extends Figurine{
-    public RegularFigurine(Game game, Color color, String name){
-        super(game, color, name);
+    public RegularFigurine(Game game, Player player, Color color, String name){
+        super(game, player, color, name);
         switch (color){
             case RED: setImage(Images.redTurtle); break;
             case BLUE: setImage(Images.blueTurtle); break;
