@@ -9,7 +9,7 @@ public class Player extends Thread{
     private final Figurine[] figurines;
     private final Color color;
     private Game game;
-    private boolean over, turn;
+    private boolean turn, started;
 
     public Player(Game game, String name, Color color){
         setDaemon(true);
@@ -19,7 +19,16 @@ public class Player extends Thread{
         figurines = generateFigurines(color);
     }
 
-    public void run(){}
+    public void run(){
+        for(Figurine f : figurines){
+            f.start();
+            try{
+                f.join();
+            }catch (InterruptedException e){
+                return;
+            }
+        }
+    }
 
     private Figurine[] generateFigurines(Color color){
         Random rng = new Random();
@@ -48,11 +57,20 @@ public class Player extends Thread{
 
     public Figurine[] getFigurines(){ return figurines; }
 
-    public boolean isOver() {
-        return over;
+    public boolean isStarted() {
+        return started;
     }
 
-    public void setOver(boolean over) {
-        this.over = over;
+    public void setStarted(boolean started) {
+        this.started = started;
+    }
+
+    @Override
+    public void interrupt() {
+        super.interrupt();
+        for(Figurine f : figurines){
+            if(f.isStarted())
+                f.interrupt();
+        }
     }
 }

@@ -208,6 +208,7 @@ public class Controller {
         Platform.runLater(() -> {
             gameTimeLabel.setText(gameDurationText + "0:00");
             gameCountLabel.setText(gameCountText + gameCount);
+            turnDescription.setText("");
         });
 
         matrix = new Matrix(gridPane, matrixDimension);

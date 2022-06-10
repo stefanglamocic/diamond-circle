@@ -14,6 +14,7 @@ public abstract class Figurine extends ImageView implements Runnable{
     private Game game;
     private int diamonds;
     private Thread thread;
+    private boolean started;
 
     public Figurine(Game game, Color color, String name){
         this.game = game;
@@ -55,5 +56,21 @@ public abstract class Figurine extends ImageView implements Runnable{
 
     public void start(){
         thread.start();
+    }
+
+    public void join() throws InterruptedException{
+        thread.join();
+    }
+
+    public void interrupt(){
+        thread.interrupt();
+    }
+
+    public boolean isStarted() {
+        return started;
+    }
+
+    public void setStarted(boolean started) {
+        this.started = started;
     }
 }

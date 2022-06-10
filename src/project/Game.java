@@ -4,10 +4,7 @@ import javafx.application.Platform;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
-import project.model.Card;
-import project.model.Player;
-import project.model.RegularCard;
-import project.model.SpecialCard;
+import project.model.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -21,32 +18,40 @@ public class Game extends Thread{
     private final List<Card> cardDeck;
     private final StackPane cardStack;
     private Timer timer;
+    private List<Integer> indexes;
 
     public Game(Controller controller){
         this.controller = controller;
         cardStack = controller.getCardStack();
         cardDeck = generateCardDeck();
+        indexes = scrambleIndexes();
         setDaemon(true);
     }
 
     public void run(){
-        List<Integer> indexes = scrambleIndexes();
-        Player[] players = controller.getPlayers();
-        HBox playersHBox = controller.getPlayersHBox();
         timer = new Timer(this);
 
-        for(int i = 0; i < players.length; i++){
+        //HBox playersHBox = controller.getPlayersHBox();
+        /*
+            Player player = players[indexes.get(i)];
             Label playerLabel = (Label)playersHBox.getChildren().get(indexes.get(i));
             Platform.runLater(() -> playerLabel.setUnderline(true));
+
+            player.start();
+            player.setStarted(true);
+
+            Platform.runLater(() -> playerLabel.setUnderline(false));*/
+
+        for(Player p : controller.getPlayers())
+            p.start();
+
+        for(Player p : controller.getPlayers()){
             try{
-                Thread.sleep(1000);
-            }catch (InterruptedException e){}
-
-            Platform.runLater(() -> playerLabel.setUnderline(false));
+                p.join();
+            }catch (InterruptedException e){
+                break;
+            }
         }
-
-        //pokretanje threadova igraca
-            //pokretanje figura
 
         //kraj
         controller.incrementGameCount();
@@ -55,6 +60,10 @@ public class Game extends Thread{
 
     public void stopGame(){
         //stopirati sve aktivne thread-ove
+        for(Player p : controller.getPlayers()){
+            if(p.isStarted())
+                p.interrupt();
+        }
         if(timer != null)
             timer.stopTimer();
     }
