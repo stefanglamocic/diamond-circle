@@ -51,6 +51,19 @@ public class Matrix {
         });
     }
 
+    public void removeFigurine(Field field) throws InterruptedException{
+        Figurine figurine = field.getFigurine();
+        field.removeFigurine();
+        figurine.setEnd(true);
+        //smanjivanje figure(efekat propadanja)
+        Platform.runLater(() -> figurine.setFitHeight(field.getHeight() - 60));
+        Thread.sleep(100);
+        Platform.runLater(() -> figurine.setFitHeight(field.getHeight() - 100));
+        Thread.sleep(100);
+        //propadanje figure
+        Platform.runLater(() -> field.getChildren().remove(figurine));
+    }
+
     public synchronized void setHole(Field field, Hole hole){
         field.setHole(hole);
         Platform.runLater(() -> {

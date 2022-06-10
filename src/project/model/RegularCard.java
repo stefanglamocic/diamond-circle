@@ -13,7 +13,7 @@ public class RegularCard extends Card{
         }
     }
 
-    public int effect(Matrix matrix){
+    public int effect(Matrix matrix) throws InterruptedException{
         super.effect(matrix);
         return hops;
     }

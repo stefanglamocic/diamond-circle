@@ -230,4 +230,10 @@ public class Controller {
     public void incrementGameCount(){
         gameCount++;
     }
+
+    public Matrix getMatrix(){
+        return matrix;
+    }
+
+    public Label getTurnDescription(){ return turnDescription; }
 }

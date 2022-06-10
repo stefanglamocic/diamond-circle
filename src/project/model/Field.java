@@ -25,7 +25,11 @@ public class Field extends StackPane{
 
     public synchronized void setFigurine(Figurine figurine){ this.figurine = figurine; }
 
-    public synchronized void removeFigurine(){ figurine = null; }
+    public synchronized Figurine getFigurine(){ return figurine; }
+
+    public synchronized void removeFigurine(){
+        figurine = null;
+    }
 
     public void setHole(Hole hole){ this.hole = hole; }
 

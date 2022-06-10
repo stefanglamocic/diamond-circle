@@ -11,7 +11,7 @@ public abstract class Card extends ImageView {
         setFitWidth(290);
     }
 
-    public int effect(Matrix matrix){
+    public int effect(Matrix matrix) throws InterruptedException{
         matrix.removeHoles();
         return 0;
     }
