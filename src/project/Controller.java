@@ -134,7 +134,7 @@ public class Controller {
         Color[] colors = new Color[playersNumber];
         List<Integer> randomNums =
         ThreadLocalRandom.current()
-                .ints(0, playersNumber)
+                .ints(0, 4)
                 .distinct()
                 .limit(playersNumber)
                 .boxed()

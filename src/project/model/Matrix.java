@@ -44,8 +44,8 @@ public class Matrix {
 
     public synchronized void setFigurine(Field field, Figurine figurine){
         Platform.runLater(() -> {
-            figurine.setFitHeight(field.getHeight() - 35);
-            figurine.setFitWidth(field.getWidth() - 20);
+            figurine.setFitHeight(field.getHeight() - 34);
+            figurine.setFitWidth(field.getWidth() - 19);
             field.setFigurine(figurine);
         });
     }
@@ -76,7 +76,7 @@ public class Matrix {
         }
     }
 
-    public void removeHoles(){
+    public synchronized void removeHoles(){
         for(Field f : traversalRoute)
             removeHole(f);
     }

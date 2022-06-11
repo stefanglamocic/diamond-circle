@@ -128,7 +128,7 @@
                             </font>
                         </Label>
 
-                        <Label fx:id="turnDescription" wrapText="true" maxWidth="220">
+                        <Label fx:id="turnDescription" alignment="CENTER" wrapText="true" maxWidth="220">
                             <font>
                                 <Font name="Arial" size="13"/>
                             </font>

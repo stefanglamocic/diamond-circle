@@ -29,17 +29,17 @@ public class Field extends StackPane{
         getChildren().add(figurine);
     }
 
-    public Figurine getFigurine(){ return figurine; }
+    public synchronized Figurine getFigurine(){ return figurine; }
 
-    public void removeFigurine(){
+    public synchronized void removeFigurine(){
         figurine = null;
     }
 
-    public void setHole(Hole hole){ this.hole = hole; }
+    public synchronized void setHole(Hole hole){ this.hole = hole; }
 
-    public void removeHole(){ hole = null; }
+    public synchronized void removeHole(){ hole = null; }
 
-    public boolean isHole(){ return hole != null; }
+    public synchronized boolean isHole(){ return hole != null; }
 
-    public boolean isOccupied(){ return figurine != null; }
+    public synchronized boolean isOccupied(){ return figurine != null; }
 }

@@ -96,7 +96,7 @@ public class Game extends Thread{
         return cardDeck;
     }
 
-    public Card drawACard() throws InterruptedException{
+    public synchronized Card drawACard() throws InterruptedException{
         Card drawnCard = cardDeck.remove(0);
         cardDeck.add(drawnCard);
         if(cardStack.getChildren().size() > 1)

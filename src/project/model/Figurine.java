@@ -57,7 +57,8 @@ public abstract class Figurine extends ImageView implements Runnable{
 
             int hops;
             try {
-                hops = game.drawACard().effect(matrix);
+                Card card = game.drawACard();
+                hops = card.effect(matrix);
             }catch (InterruptedException e){
                 end = true;
                 return;
@@ -65,11 +66,7 @@ public abstract class Figurine extends ImageView implements Runnable{
 
             if(hops == 0){
                 Platform.runLater(() -> {
-                    for(Field f : traversalRoute){
-                        if(f.isHole() && !isFlying()){
-
-                        }
-                    }
+                    game.getController().getTurnDescription().setText(player.getPlayerName() + " izvlači specijalnu kartu.");
                 });
                 try {
                     Thread.sleep(600);
@@ -84,6 +81,8 @@ public abstract class Figurine extends ImageView implements Runnable{
             if(!end && hops > 0){
                 int previousIndex = currentIndex;
                 traversalRoute.get(currentIndex).removeFigurine();
+                if(isSuperFast())
+                    hops *= 2;
                 currentIndex += hops;
                 if(currentIndex > traversalRoute.size() - 1)
                     currentIndex = traversalRoute.size() - 1;
@@ -160,4 +159,6 @@ public abstract class Figurine extends ImageView implements Runnable{
     public boolean isFlying(){
         return false;
     }
+
+    public boolean isSuperFast(){ return false; }
 }

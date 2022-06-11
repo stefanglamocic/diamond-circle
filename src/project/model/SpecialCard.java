@@ -13,7 +13,7 @@ public class SpecialCard extends Card{
         setImage(Images.specialCard);
     }
 
-    public int effect(Matrix matrix) throws InterruptedException{
+    public synchronized int effect(Matrix matrix) throws InterruptedException{
         List<Field> traversalRoute = matrix.getTraversalRoute();
         List<Integer> indexes =
         ThreadLocalRandom.current()
@@ -28,6 +28,13 @@ public class SpecialCard extends Card{
 
         Thread.sleep(1000);
 
+        for(Integer i : indexes){
+            Field field = matrix.getTraversalRoute().get(i);
+            if(field.isOccupied()){
+                if(!field.getFigurine().isFlying())
+                    matrix.removeFigurine(field);
+            }
+        }
         return 0;
     }
 }

@@ -12,4 +12,6 @@ public class FastFigurine extends Figurine{
             case YELLOW: setImage(Images.yellowCat); break;
         }
     }
+
+    public boolean isSuperFast(){ return true; }
 }
