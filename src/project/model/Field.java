@@ -29,9 +29,9 @@ public class Field extends StackPane{
         getChildren().add(figurine);
     }
 
-    public synchronized Figurine getFigurine(){ return figurine; }
+    public Figurine getFigurine(){ return figurine; }
 
-    public synchronized void removeFigurine(){
+    public void removeFigurine(){
         figurine = null;
     }
 

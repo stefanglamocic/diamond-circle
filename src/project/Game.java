@@ -34,14 +34,16 @@ public class Game extends Thread{
         timer = new Timer(this);
         controller.getPlayers()[indexes.get(0)].setTurn(true);
 
-        for(Player p : controller.getPlayers())
+        for(Player p : controller.getPlayers()) {
             p.start();
+            p.setStarted(true);
+        }
 
         for(Player p : controller.getPlayers()){
             try{
                 p.join();
             }catch (InterruptedException e){
-                break;
+                return;
             }
         }
 
@@ -99,7 +101,7 @@ public class Game extends Thread{
         cardDeck.add(drawnCard);
         if(cardStack.getChildren().size() > 1)
             Platform.runLater(() -> cardStack.getChildren().remove(1));
-        Thread.sleep(350);
+        Thread.sleep(600);
         Platform.runLater(() -> cardStack.getChildren().add(drawnCard));
 
         return drawnCard;

@@ -71,7 +71,7 @@ public class Controller {
 
     public void initialize(){
         figurineListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-        setCardDeck();
+        //setCardDeck();
         resetGame();
 
         figurineListView.setCellFactory(new Callback<>() {
@@ -202,13 +202,14 @@ public class Controller {
 
     public StackPane getCardStack(){ return cardStack; }
 
-    public void resetGame(){
+    public synchronized void resetGame(){
         gameStarted = false;
         startStopItem.setText("Start");
         Platform.runLater(() -> {
             gameTimeLabel.setText(gameDurationText + "0:00");
             gameCountLabel.setText(gameCountText + gameCount);
             turnDescription.setText("");
+            setCardDeck();
         });
 
         matrix = new Matrix(gridPane, matrixDimension);
@@ -227,7 +228,7 @@ public class Controller {
 
     public HBox getPlayersHBox(){ return playersHBox; }
 
-    public void incrementGameCount(){
+    public synchronized void incrementGameCount(){
         gameCount++;
     }
 

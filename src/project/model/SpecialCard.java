@@ -1,5 +1,6 @@
 package project.model;
 
+import javafx.application.Platform;
 import project.Controller;
 
 import java.util.List;
@@ -13,7 +14,6 @@ public class SpecialCard extends Card{
     }
 
     public int effect(Matrix matrix) throws InterruptedException{
-        super.effect(matrix);
         List<Field> traversalRoute = matrix.getTraversalRoute();
         List<Integer> indexes =
         ThreadLocalRandom.current()
@@ -26,11 +26,7 @@ public class SpecialCard extends Card{
         for(Integer i : indexes)
             matrix.setHole(traversalRoute.get(i), new Hole());
 
-
-        Thread.sleep(500);
-
-        for(Integer i : indexes)
-            matrix.removeFigurine(traversalRoute.get(i));
+        Thread.sleep(1000);
 
         return 0;
     }

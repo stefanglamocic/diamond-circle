@@ -12,4 +12,8 @@ public class FlyingFigurine extends Figurine{
             case YELLOW: setImage(Images.yellowOwl); break;
         }
     }
+
+    public boolean isFlying(){
+        return true;
+    }
 }
