@@ -13,7 +13,7 @@ public class SpecialCard extends Card{
         setImage(Images.specialCard);
     }
 
-    public synchronized int effect(Matrix matrix) throws InterruptedException{
+    public int effect(Matrix matrix) throws InterruptedException{
         List<Field> traversalRoute = matrix.getTraversalRoute();
         List<Integer> indexes =
         ThreadLocalRandom.current()
@@ -36,5 +36,9 @@ public class SpecialCard extends Card{
             }
         }
         return 0;
+    }
+
+    public boolean isSpecialCard(){
+        return true;
     }
 }

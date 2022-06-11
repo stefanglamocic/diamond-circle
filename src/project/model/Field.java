@@ -26,7 +26,8 @@ public class Field extends StackPane{
 
     public synchronized void setFigurine(Figurine figurine){
         this.figurine = figurine;
-        getChildren().add(figurine);
+        if(!getChildren().contains(figurine))
+            getChildren().add(figurine);
     }
 
     public synchronized Figurine getFigurine(){ return figurine; }

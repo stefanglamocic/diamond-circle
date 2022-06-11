@@ -232,7 +232,7 @@ public class Controller {
         gameCount++;
     }
 
-    public Matrix getMatrix(){
+    public synchronized Matrix getMatrix(){
         return matrix;
     }
 

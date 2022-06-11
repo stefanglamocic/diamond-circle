@@ -12,4 +12,8 @@ public abstract class Card extends ImageView {
     }
 
     public abstract int effect(Matrix matrix) throws InterruptedException;
+
+    public boolean isSpecialCard(){
+        return false;
+    }
 }

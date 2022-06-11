@@ -42,7 +42,7 @@ public class Matrix {
         return dimension * i + j + 1;
     }
 
-    public synchronized void setFigurine(Field field, Figurine figurine){
+    public void setFigurine(Field field, Figurine figurine){
         Platform.runLater(() -> {
             figurine.setFitHeight(field.getHeight() - 34);
             figurine.setFitWidth(field.getWidth() - 19);
@@ -50,7 +50,7 @@ public class Matrix {
         });
     }
 
-    public synchronized void removeFigurine(Field field){
+    public void removeFigurine(Field field){
         Platform.runLater(() -> {
             field.getFigurine().setEnd(true);
             field.getChildren().remove(field.getFigurine());
@@ -58,7 +58,7 @@ public class Matrix {
         });
     }
 
-    public synchronized void setHole(Field field, Hole hole){
+    public void setHole(Field field, Hole hole){
         field.setHole(hole);
         Platform.runLater(() -> {
             hole.setFitHeight(field.getHeight() - 20);
@@ -67,7 +67,7 @@ public class Matrix {
         });
     }
 
-    private synchronized void removeHole(Field field){
+    private void removeHole(Field field){
         if(field.isHole()){
             field.removeHole();
             Platform.runLater(() -> {
@@ -76,7 +76,7 @@ public class Matrix {
         }
     }
 
-    public synchronized void removeHoles(){
+    public void removeHoles(){
         for(Field f : traversalRoute)
             removeHole(f);
     }
@@ -119,5 +119,5 @@ public class Matrix {
 
     }
 
-    public List<Field> getTraversalRoute(){ return traversalRoute; }
+    public synchronized List<Field> getTraversalRoute(){ return traversalRoute; }
 }

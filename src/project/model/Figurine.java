@@ -5,6 +5,7 @@ import javafx.scene.image.ImageView;
 import project.Game;
 
 import java.util.List;
+import java.util.Objects;
 
 public abstract class Figurine extends ImageView implements Runnable{
     public static int figurineCounter;
@@ -50,7 +51,8 @@ public abstract class Figurine extends ImageView implements Runnable{
             game.startTurn(player);
             game.checkPause();
             if(currentIndex == 0) {
-                while(traversalRoute.get(currentIndex).isOccupied())
+                while(traversalRoute.get(currentIndex).isOccupied() &&
+                        !traversalRoute.get(currentIndex).getFigurine().equals(this))
                     currentIndex++;
                 matrix.setFigurine(traversalRoute.get(currentIndex), this);
             }
@@ -58,22 +60,30 @@ public abstract class Figurine extends ImageView implements Runnable{
             int hops;
             try {
                 Card card = game.drawACard();
+                if(card.isSpecialCard())
+                    Platform.runLater(() -> game.getController().getTurnDescription().setText(player.getPlayerName() +
+                            " izvlači specijalnu kartu."));
+                try {
+                    Thread.sleep(400);
+                }catch (InterruptedException e){
+                    end = true;
+                    return;
+                }
                 hops = card.effect(matrix);
             }catch (InterruptedException e){
                 end = true;
                 return;
             }
 
-            if(hops == 0){
-                Platform.runLater(() -> {
-                    game.getController().getTurnDescription().setText(player.getPlayerName() + " izvlači specijalnu kartu.");
-                });
+            if(!end && hops == 0){
+                game.checkPause();
                 try {
                     Thread.sleep(600);
                 }catch (InterruptedException e){
                     end = true;
                     return;
                 }
+                game.checkPause();
                 matrix.removeHoles();
             }
 
@@ -161,4 +171,17 @@ public abstract class Figurine extends ImageView implements Runnable{
     }
 
     public boolean isSuperFast(){ return false; }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Figurine)) return false;
+        Figurine figurine = (Figurine) o;
+        return name.equals(figurine.name) && color == figurine.color;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, color);
+    }
 }

@@ -47,7 +47,10 @@ public class Game extends Thread{
             }
         }
 
-        //kraj
+        if(Thread.interrupted()) {
+            controller.resetGame();
+            return;
+        }
         controller.incrementGameCount();
         controller.resetGame();
     }
@@ -60,6 +63,7 @@ public class Game extends Thread{
         }
         if(timer != null)
             timer.stopTimer();
+        this.interrupt();
     }
 
     public synchronized void checkPause(){
@@ -77,7 +81,7 @@ public class Game extends Thread{
         notifyAll();
     }
 
-    public Controller getController(){ return controller; }
+    public synchronized Controller getController(){ return controller; }
 
     private List<Card> generateCardDeck(){
         List<Card> cardDeck = new ArrayList<>();
