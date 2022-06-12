@@ -80,7 +80,7 @@ public class Game extends Thread{
             try{
                 wait();
             }catch (InterruptedException e){
-                Main.logger.log(Level.SEVERE, "wait() interrupted", e);
+                //Main.logger.log(Level.INFO, "thread interrupted");
             }
         }
     }
@@ -136,7 +136,7 @@ public class Game extends Thread{
             try{
                 wait();
             }catch (InterruptedException e){
-                Main.logger.log(Level.SEVERE, "wait() interrupted", e);
+                //Main.logger.log(Level.INFO, "thread interrupted");
             }
         }
     }
