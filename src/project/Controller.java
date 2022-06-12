@@ -226,7 +226,7 @@ public class Controller {
 
     public Player[] getPlayers(){ return players; }
 
-    public HBox getPlayersHBox(){ return playersHBox; }
+    public synchronized HBox getPlayersHBox(){ return playersHBox; }
 
     public synchronized void incrementGameCount(){
         gameCount++;

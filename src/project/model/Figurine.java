@@ -1,7 +1,11 @@
 package project.model;
 
 import javafx.application.Platform;
+import javafx.scene.Node;
+import javafx.scene.control.Label;
+import javafx.scene.effect.*;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import project.Game;
 
 import java.util.List;
@@ -12,12 +16,12 @@ public abstract class Figurine extends ImageView implements Runnable{
 
     private final String name;
     private final Color color;
-    private Game game;
+    protected Game game;
     private int diamonds;
     private Thread thread;
     private boolean started, end;
     private Player player;
-    private int currentIndex;
+    private int currentIndex = -1;
 
     public Figurine(Game game, Player player, Color color, String name){
         this.game = game;
@@ -32,23 +36,31 @@ public abstract class Figurine extends ImageView implements Runnable{
         thread.setDaemon(true);
     }
 
-    public String getName(){ return name; }
-
-    public javafx.scene.paint.Color getFigurineColor(){ return color.getColor(); }
-
     public Figurine(Game game){
         this.game = game;
         color = Color.INVISIBLE;
         name = "Duh figura";
+        thread = new Thread(this);
+        thread.setDaemon(true);
     }
+
+    public String getName(){ return name; }
+
+    public abstract String getType();
+
+    public javafx.scene.paint.Color getFigurineColor(){ return color.getColor(); }
+
 
     public void run(){
         started = true;
         Matrix matrix = game.getController().getMatrix();
         List<Field> traversalRoute = matrix.getTraversalRoute();
+        Label playersLabel = getPlayersLabel();
         currentIndex = 0;
         while(!end){
             game.startTurn(player);
+            playersLabel.setEffect(new Glow());
+            playersLabel.setUnderline(true);
             game.checkPause();
             if(currentIndex == 0) {
                 while(traversalRoute.get(currentIndex).isOccupied() &&
@@ -89,11 +101,13 @@ public abstract class Figurine extends ImageView implements Runnable{
 
             //pomjeranje za n polja
             if(!end && hops > 0){
+                Platform.runLater(() -> diamonds = traversalRoute.get(currentIndex).consumeDiamonds());
                 int previousIndex = currentIndex;
                 traversalRoute.get(currentIndex).removeFigurine();
                 if(isSuperFast())
                     hops *= 2;
                 currentIndex += hops;
+                currentIndex += diamonds;
                 if(currentIndex > traversalRoute.size() - 1)
                     currentIndex = traversalRoute.size() - 1;
                 while (currentIndex < traversalRoute.size() - 1 && traversalRoute.get(currentIndex).getFigurine() != null)
@@ -106,6 +120,7 @@ public abstract class Figurine extends ImageView implements Runnable{
                         traversalRoute.get(currentIndex).getOrdinalNumber() + "."));
 
                 game.checkPause();
+                diamonds = 0;
 
                 for(int i = previousIndex + 1; i <= currentIndex; i++){
                     int finalI = i;
@@ -134,6 +149,8 @@ public abstract class Figurine extends ImageView implements Runnable{
                 }
             }
 
+            playersLabel.setEffect(null);
+            playersLabel.setUnderline(false);
             game.endTurn();
         }
     }
@@ -183,5 +200,17 @@ public abstract class Figurine extends ImageView implements Runnable{
     @Override
     public int hashCode() {
         return Objects.hash(name, color);
+    }
+
+    public Label getPlayersLabel(){
+        Label label = null;
+        HBox playersHBox = game.getController().getPlayersHBox();
+        for(Node n : playersHBox.getChildren()){
+            Label temp = (Label) n;
+            if(temp.getText().equals(player.getPlayerName()))
+                label = temp;
+        }
+
+        return label;
     }
 }

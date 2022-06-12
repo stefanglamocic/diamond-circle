@@ -16,4 +16,8 @@ public class FlyingFigurine extends Figurine{
     public boolean isFlying(){
         return true;
     }
+
+    public String getType(){
+        return "leteća";
+    }
 }

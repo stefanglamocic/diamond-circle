@@ -43,4 +43,18 @@ public class Field extends StackPane{
     public synchronized boolean isHole(){ return hole != null; }
 
     public synchronized boolean isOccupied(){ return figurine != null; }
+
+    public synchronized void incrementDiamonds(){
+        diamonds++;
+    }
+
+    public synchronized int getDiamonds(){
+        return diamonds;
+    }
+
+    public synchronized int consumeDiamonds(){
+        int temp = diamonds;
+        diamonds = 0;
+        return temp;
+    }
 }

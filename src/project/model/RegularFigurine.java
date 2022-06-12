@@ -13,4 +13,8 @@ public class RegularFigurine extends Figurine{
             case YELLOW: setImage(Images.yellowTurtle); break;
         }
     }
+
+    public String getType(){
+        return "obična";
+    }
 }

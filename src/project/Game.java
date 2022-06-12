@@ -1,8 +1,6 @@
 package project;
 
 import javafx.application.Platform;
-import javafx.scene.control.Label;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import project.model.*;
 
@@ -18,7 +16,8 @@ public class Game extends Thread{
     private final List<Card> cardDeck;
     private final StackPane cardStack;
     private Timer timer;
-    private List<Integer> indexes;
+    private GhostFigurine ghost;
+    private final List<Integer> indexes;
     private int turnIndex = 0;
 
     public Game(Controller controller){
@@ -33,7 +32,8 @@ public class Game extends Thread{
 
         timer = new Timer(this);
         controller.getPlayers()[indexes.get(0)].setTurn(true);
-
+        ghost = new GhostFigurine(this);
+        ghost.start();
         for(Player p : controller.getPlayers()) {
             p.start();
             p.setStarted(true);
@@ -56,13 +56,14 @@ public class Game extends Thread{
     }
 
     public void stopGame(){
-        //stopirati sve aktivne thread-ove
         for(Player p : controller.getPlayers()){
             if(p.isStarted())
                 p.interrupt();
         }
         if(timer != null)
             timer.stopTimer();
+        if(ghost != null)
+            ghost.interrupt();
         this.interrupt();
     }
 

@@ -14,4 +14,8 @@ public class FastFigurine extends Figurine{
     }
 
     public boolean isSuperFast(){ return true; }
+
+    public String getType(){
+        return "super brza";
+    }
 }

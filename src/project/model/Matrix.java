@@ -120,4 +120,8 @@ public class Matrix {
     }
 
     public synchronized List<Field> getTraversalRoute(){ return traversalRoute; }
+
+    public synchronized int getDimension(){
+        return dimension;
+    }
 }
