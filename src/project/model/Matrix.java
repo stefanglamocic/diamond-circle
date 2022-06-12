@@ -124,4 +124,13 @@ public class Matrix {
     public synchronized int getDimension(){
         return dimension;
     }
+
+    public void paintCurrentTraversal(int currentIndex){
+        Platform.runLater(() -> {
+            if(currentIndex > -1){
+                for(int i = 0; i < currentIndex; i++)
+                    traversalRoute.get(i).setStyle("-fx-background-color: #fff3cd");
+            }
+        });
+    }
 }

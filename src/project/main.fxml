@@ -86,7 +86,8 @@
         </top>
 
         <left>
-            <ListView fx:id="figurineListView" style="-fx-background-color: black; -fx-background-insets: 0,1"/>
+            <ListView fx:id="figurineListView" onMouseClicked="#clickListItem"
+                      style="-fx-background-color: black; -fx-background-insets: 0,1"/>
         </left>
 
         <center>

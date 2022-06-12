@@ -19,7 +19,7 @@ public abstract class Figurine extends ImageView implements Runnable{
     protected Game game;
     private int diamonds;
     private Thread thread;
-    private boolean started, end;
+    private boolean started, end, goalReached;
     private Player player;
     private int currentIndex = -1;
 
@@ -141,6 +141,7 @@ public abstract class Figurine extends ImageView implements Runnable{
                     try{
                         Thread.sleep(300);
                         matrix.removeFigurine(traversalRoute.get(currentIndex));
+                        goalReached = true;
                         end = true;
                     }catch (InterruptedException e){
                         end = true;
@@ -213,4 +214,8 @@ public abstract class Figurine extends ImageView implements Runnable{
 
         return label;
     }
+
+    public synchronized int getCurrentIndex(){ return currentIndex; }
+
+    public boolean isGoalReached(){ return goalReached; }
 }

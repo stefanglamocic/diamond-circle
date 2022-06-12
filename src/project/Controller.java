@@ -4,12 +4,16 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 import project.model.*;
 
@@ -71,7 +75,6 @@ public class Controller {
 
     public void initialize(){
         figurineListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-        //setCardDeck();
         resetGame();
 
         figurineListView.setCellFactory(new Callback<>() {
@@ -237,4 +240,24 @@ public class Controller {
     }
 
     public Label getTurnDescription(){ return turnDescription; }
+
+    @FXML
+    public void clickListItem(){
+        Figurine figurine = figurineListView.getSelectionModel().getSelectedItem();
+        try{
+            Stage stage = new Stage();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("traversal.fxml"));
+            TraversalRoute controller = new TraversalRoute(figurine, matrixDimension);
+            loader.setController(controller);
+            Parent sceneMain = loader.load();
+
+
+            Scene scene = new Scene(sceneMain, 800, 600);
+            stage.setScene(scene);
+            stage.setTitle(figurine.getName() + " traversal route");
+            stage.show();
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+    }
 }
