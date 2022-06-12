@@ -1,12 +1,10 @@
 package project.model;
 
 import javafx.application.Platform;
-import javafx.scene.Node;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Matrix {
@@ -42,7 +40,7 @@ public class Matrix {
         return dimension * i + j + 1;
     }
 
-    public void setFigurine(Field field, Figurine figurine){
+    public synchronized void setFigurine(Field field, Figurine figurine){
         Platform.runLater(() -> {
             figurine.setFitHeight(field.getHeight() - 34);
             figurine.setFitWidth(field.getWidth() - 19);
@@ -50,7 +48,7 @@ public class Matrix {
         });
     }
 
-    public void removeFigurine(Field field){
+    public synchronized void removeFigurine(Field field){
         Platform.runLater(() -> {
             field.getFigurine().setEnd(true);
             field.getChildren().remove(field.getFigurine());

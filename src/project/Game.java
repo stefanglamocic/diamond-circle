@@ -23,19 +23,18 @@ public class Game extends Thread{
     private final StackPane cardStack;
     private Timer timer;
     private GhostFigurine ghost;
-    private final List<Integer> indexes;
+    private List<Integer> indexes;
     private int turnIndex = 0;
 
     public Game(Controller controller){
         this.controller = controller;
         cardStack = controller.getCardStack();
         cardDeck = generateCardDeck();
-        indexes = scrambleIndexes();
         setDaemon(true);
     }
 
     public void run(){
-
+        indexes = scrambleIndexes();
         timer = new Timer(this);
         controller.getPlayers()[indexes.get(0)].setTurn(true);
         ghost = new GhostFigurine(this);

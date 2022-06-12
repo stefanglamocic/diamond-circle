@@ -231,7 +231,7 @@ public class Controller {
         resetGame();
     }
 
-    public Player[] getPlayers(){ return players; }
+    public synchronized Player[] getPlayers(){ return players; }
 
     public synchronized HBox getPlayersHBox(){ return playersHBox; }
 
