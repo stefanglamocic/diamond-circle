@@ -9,7 +9,7 @@ public class Player extends Thread{
     private final Figurine[] figurines;
     private final Color color;
     private Game game;
-    private boolean turn, started;
+    private boolean turn, started, end;
 
     public Player(Game game, String name, Color color){
         setDaemon(true);
@@ -28,6 +28,7 @@ public class Player extends Thread{
                 return;
             }
         }
+        end = true;
     }
 
     private Figurine[] generateFigurines(Color color){
@@ -81,4 +82,6 @@ public class Player extends Thread{
     public void setTurn(boolean turn) {
         this.turn = turn;
     }
+
+    public boolean isEnd(){ return end; }
 }

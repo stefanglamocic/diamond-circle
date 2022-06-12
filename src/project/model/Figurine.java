@@ -106,27 +106,27 @@ public abstract class Figurine extends ImageView implements Runnable{
                 traversalRoute.get(currentIndex).removeFigurine();
                 if(isSuperFast())
                     hops *= 2;
-                currentIndex += hops;
-                currentIndex += diamonds;
-                if(currentIndex > traversalRoute.size() - 1)
-                    currentIndex = traversalRoute.size() - 1;
-                while (currentIndex < traversalRoute.size() - 1 && traversalRoute.get(currentIndex).getFigurine() != null)
-                    currentIndex++;
+                int nextIndex = previousIndex + hops + diamonds;
+                if(nextIndex > traversalRoute.size() - 1)
+                    nextIndex = traversalRoute.size() - 1;
+                while (nextIndex < traversalRoute.size() - 1 && traversalRoute.get(nextIndex).getFigurine() != null)
+                    nextIndex++;
 
+                int finalNextIndex = nextIndex;
                 Platform.runLater(() -> game.getController().getTurnDescription().setText("Na potezu je "
                         + player.getPlayerName() + ", " + name + " " +
-                        "prelazi " + (currentIndex - previousIndex) + ". polja - pomjera se sa pozicije" +
+                        "prelazi " + (finalNextIndex - previousIndex) + ". polja - pomjera se sa pozicije" +
                         " " + traversalRoute.get(previousIndex).getOrdinalNumber() + ". na " +
-                        traversalRoute.get(currentIndex).getOrdinalNumber() + "."));
+                        traversalRoute.get(finalNextIndex).getOrdinalNumber() + "."));
 
                 game.checkPause();
                 diamonds = 0;
 
-                for(int i = previousIndex + 1; i <= currentIndex; i++){
+                for(int i = previousIndex + 1; i <= nextIndex; i++, currentIndex++){
                     int finalI = i;
                     Platform.runLater(() -> traversalRoute.get(finalI - 1).removeFigurine());
                     try {
-                        Thread.sleep(1000);
+                        Thread.sleep(500);
                     }catch (InterruptedException e){
                         end = true;
                         return;
@@ -139,7 +139,7 @@ public abstract class Figurine extends ImageView implements Runnable{
                 if(currentIndex == traversalRoute.size() - 1){
                     //kraj
                     try{
-                        Thread.sleep(300);
+                        Thread.sleep(500);
                         matrix.removeFigurine(traversalRoute.get(currentIndex));
                         goalReached = true;
                         end = true;
@@ -218,4 +218,26 @@ public abstract class Figurine extends ImageView implements Runnable{
     public synchronized int getCurrentIndex(){ return currentIndex; }
 
     public boolean isGoalReached(){ return goalReached; }
+
+    public String getColorName(){
+        String colorName = null;
+        switch (color){
+            case RED: colorName = "crvena"; break;
+            case BLUE: colorName = "plava"; break;
+            case GREEN: colorName = "zelena"; break;
+            case YELLOW: colorName = "zuta"; break;
+        }
+
+        return colorName;
+    }
+
+    public String getTraversalSummary(){
+        StringBuilder stringBuilder = new StringBuilder();
+        List<Field> traversalRoute = game.getController().getMatrix().getTraversalRoute();
+        for(int i = 0; i <= currentIndex; i++)
+            stringBuilder.append(traversalRoute.get(i).getOrdinalNumber()).append("-");
+        String result = stringBuilder.toString();
+
+        return result.substring(0, result.length() - 1);
+    }
 }

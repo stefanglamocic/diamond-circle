@@ -4,6 +4,11 @@ import javafx.application.Platform;
 import javafx.scene.layout.StackPane;
 import project.model.*;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -51,8 +56,10 @@ public class Game extends Thread{
             controller.resetGame();
             return;
         }
+
+        writeResults();
         controller.incrementGameCount();
-        controller.resetGame();
+        timer.stopTimer();
     }
 
     public void stopGame(){
@@ -135,8 +142,28 @@ public class Game extends Thread{
 
     public synchronized void endTurn(){
         controller.getPlayers()[indexes.get(turnIndex)].setTurn(false);
-        turnIndex = (turnIndex + 1) % indexes.size();
+        do {
+            turnIndex = (turnIndex + 1) % indexes.size();
+        }while (controller.getPlayers()[indexes.get(turnIndex)].isEnd());
         controller.getPlayers()[indexes.get(turnIndex)].setTurn(true);
         notifyAll();
+    }
+
+    public void writeResults(){
+        LocalDateTime time = LocalDateTime.now();
+        File result = new File(Main.resultsFolder, time.format(DateTimeFormatter.ofPattern("dd_MM_yyyy_kk_mm_ss")) + ".txt");
+        try(FileWriter writer = new FileWriter(result, true)){
+            for(Player p : controller.getPlayers()){
+                writer.write(p.getPlayerName() + System.lineSeparator());
+                for(Figurine f : p.getFigurines()){
+                    writer.write("\t" + f.getName() + " (" + f.getType() + ", " + f.getColorName() + ")" +
+                            " - pređeni put: " + f.getTraversalSummary() + " stigla do cilja " +
+                            (f.isGoalReached() ? "da" : "ne") + System.lineSeparator());
+                }
+            }
+            writer.write("Ukupno vrijeme trajanja igre: " + timer.getTime());
+        }catch (IOException e){
+            //logger
+        }
     }
 }

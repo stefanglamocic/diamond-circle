@@ -128,7 +128,7 @@ public class Matrix {
     public void paintCurrentTraversal(int currentIndex){
         Platform.runLater(() -> {
             if(currentIndex > -1){
-                for(int i = 0; i < currentIndex; i++)
+                for(int i = 0; i <= currentIndex; i++)
                     traversalRoute.get(i).setStyle("-fx-background-color: #fff3cd");
             }
         });

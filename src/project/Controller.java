@@ -251,13 +251,27 @@ public class Controller {
             loader.setController(controller);
             Parent sceneMain = loader.load();
 
-
             Scene scene = new Scene(sceneMain, 800, 600);
             stage.setScene(scene);
             stage.setTitle(figurine.getName() + " traversal route");
             stage.show();
         }catch (IOException e){
-            e.printStackTrace();
+            //logger
+        }
+    }
+
+    @FXML
+    public void showResultFiles(){
+        try{
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(getClass().getResource("results.fxml"));
+            Scene scene = new Scene(fxmlLoader.load(), 800, 1000);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.setTitle("Game results");
+            stage.show();
+        }catch (IOException e){
+            //logger
         }
     }
 }

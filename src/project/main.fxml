@@ -136,7 +136,8 @@
                         </Label>
                     </VBox>
                     <VBox alignment="CENTER" HBox.hgrow="SOMETIMES" prefWidth="190">
-                        <Button text="Prikaz liste fajlova sa rezultatima" wrapText="true" prefWidth="120" textAlignment="CENTER">
+                        <Button text="Prikaz liste fajlova sa rezultatima" onAction="#showResultFiles"
+                                wrapText="true" prefWidth="120" textAlignment="CENTER">
                             <font>
                                 <Font size="14"/>
                             </font>

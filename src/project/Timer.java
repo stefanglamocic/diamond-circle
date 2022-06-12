@@ -6,6 +6,7 @@ import static project.Controller.*;
 public class Timer implements Runnable{
     private Thread thread;
     private Game game;
+    private int i;
 
     public Timer(Game game){
         this.game = game;
@@ -15,7 +16,7 @@ public class Timer implements Runnable{
     }
 
     public void run(){
-        int i = 0;
+        i = 0;
         while(true){
             game.checkPause();
             try{
@@ -25,15 +26,14 @@ public class Timer implements Runnable{
             }
             i++;
             game.checkPause();
-            int finalI = i;
-            Platform.runLater(() -> game.getController().gameTimeLabel.setText(gameDurationText + getTime(finalI)));
+            Platform.runLater(() -> game.getController().gameTimeLabel.setText(gameDurationText + getTime()));
 
             if(Thread.interrupted())
                 return;
         }
     }
 
-    private String getTime(int i){
+    public String getTime(){
         int mod = i % 60;
         return i / 60 + ":" + (mod < 10 ? "0" + mod : mod);
     }

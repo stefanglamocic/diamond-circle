@@ -1,0 +1,11 @@
+Igrač1
+	Figura 1 (super brza, zuta) - pređeni put: 4-12-20-28-34-40-46-38-30-22-16-10-11-19-27-33-39-31-23-17-18-26-32-24-25 stigla do cilja da
+	Figura 2 (super brza, zuta) - pređeni put: 4-12-20-28-34-40-46-38-30-22-16-10-11-19-27-33-39-31-23-17-18-26-32-24-25 stigla do cilja da
+	Figura 3 (leteća, zuta) - pređeni put: 4-12-20-28-34-40-46-38-30-22-16-10-11-19-27-33-39-31-23-17-18-26-32-24-25 stigla do cilja da
+	Figura 4 (leteća, zuta) - pređeni put: 4-12-20-28-34-40-46-38-30-22-16-10-11-19-27-33-39-31-23-17-18-26-32-24-25 stigla do cilja da
+Igrač2
+	Figura 5 (leteća, zelena) - pređeni put: 4-12-20-28-34-40-46-38-30-22-16-10-11-19-27-33-39-31-23-17-18-26-32-24-25 stigla do cilja da
+	Figura 6 (obična, zelena) - pređeni put: 4-12-20-28-34-40-46-38-30-22-16-10-11-19-27-33-39-31-23-17-18-26-32-24-25 stigla do cilja da
+	Figura 7 (leteća, zelena) - pređeni put: 4-12-20-28-34-40-46-38-30-22-16-10-11-19-27-33-39-31-23-17-18-26-32-24-25 stigla do cilja da
+	Figura 8 (super brza, zelena) - pređeni put: 4-12-20-28-34-40-46-38-30-22-16-10-11-19-27-33-39-31-23-17-18-26-32-24-25 stigla do cilja da
+Ukupno vrijeme trajanja igre: 2:09
