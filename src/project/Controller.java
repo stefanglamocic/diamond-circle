@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.logging.Level;
 import java.util.stream.Collectors;
 
 public class Controller {
@@ -61,13 +62,16 @@ public class Controller {
     public static final int numOfHoles;
 
     static{
+        File[] files = Main.resultsFolder.listFiles();
+        if(files != null)
+            gameCount = files.length;
         int tempHoles = 5;
         Properties properties = new Properties();
         try(InputStream is = new FileInputStream("src" + File.separator + "data.properties")){
             properties.load(is);
             tempHoles = Integer.parseInt(properties.getProperty("numOfHoles"));
         }catch (IOException e){
-            //logger
+            Main.logger.log(Level.SEVERE, "Properties error", e);
         }finally {
             numOfHoles = tempHoles;
         }
@@ -256,7 +260,7 @@ public class Controller {
             stage.setTitle(figurine.getName() + " traversal route");
             stage.show();
         }catch (IOException e){
-            //logger
+            Main.logger.log(Level.SEVERE, "Problem loading fxml file", e);
         }
     }
 
@@ -271,7 +275,7 @@ public class Controller {
             stage.setTitle("Game results");
             stage.show();
         }catch (IOException e){
-            //logger
+            Main.logger.log(Level.SEVERE, "Problem loading fxml file", e);
         }
     }
 }

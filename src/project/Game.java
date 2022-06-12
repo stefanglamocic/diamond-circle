@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.logging.Level;
 import java.util.stream.Collectors;
 
 public class Game extends Thread{
@@ -79,7 +80,7 @@ public class Game extends Thread{
             try{
                 wait();
             }catch (InterruptedException e){
-                //logger
+                Main.logger.log(Level.SEVERE, "wait() interrupted", e);
             }
         }
     }
@@ -135,7 +136,7 @@ public class Game extends Thread{
             try{
                 wait();
             }catch (InterruptedException e){
-                //logger
+                Main.logger.log(Level.SEVERE, "wait() interrupted", e);
             }
         }
     }
@@ -163,7 +164,7 @@ public class Game extends Thread{
             }
             writer.write("Ukupno vrijeme trajanja igre: " + timer.getTime());
         }catch (IOException e){
-            //logger
+            Main.logger.log(Level.SEVERE, "Can't write the details!", e);
         }
     }
 }

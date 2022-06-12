@@ -10,6 +10,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.logging.Level;
 import java.util.stream.Collectors;
 
 public class Results {
@@ -37,7 +38,7 @@ public class Results {
 
                     vbox.getChildren().add(pane);
                 }catch (IOException e){
-                    e.printStackTrace();
+                    Main.logger.log(Level.SEVERE, "Can't display results!", e);
                 }
             }
         }
