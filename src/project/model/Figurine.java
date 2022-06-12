@@ -21,7 +21,7 @@ public abstract class Figurine extends ImageView implements Runnable{
     private Thread thread;
     private boolean started, end, goalReached;
     private Player player;
-    private int currentIndex = -1;
+    private int currentIndex = -1, nextIndex;
 
     public Figurine(Game game, Player player, Color color, String name){
         this.game = game;
@@ -106,11 +106,14 @@ public abstract class Figurine extends ImageView implements Runnable{
                 traversalRoute.get(currentIndex).removeFigurine();
                 if(isSuperFast())
                     hops *= 2;
-                int nextIndex = previousIndex + hops + diamonds;
+                nextIndex = previousIndex + hops + diamonds;
                 if(nextIndex > traversalRoute.size() - 1)
                     nextIndex = traversalRoute.size() - 1;
-                while (nextIndex < traversalRoute.size() - 1 && traversalRoute.get(nextIndex).getFigurine() != null)
-                    nextIndex++;
+                Platform.runLater(() -> {
+                    while (nextIndex < traversalRoute.size() - 1 && traversalRoute.get(nextIndex).getFigurine() != null)
+                        nextIndex++;
+                });
+
 
                 int finalNextIndex = nextIndex;
                 Platform.runLater(() -> game.getController().getTurnDescription().setText("Na potezu je "

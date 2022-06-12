@@ -4,7 +4,6 @@ import javafx.application.Platform;
 import project.Controller;
 
 import java.util.List;
-import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
@@ -28,13 +27,16 @@ public class SpecialCard extends Card{
 
         Thread.sleep(1000);
 
-        for(Integer i : indexes){
-            Field field = matrix.getTraversalRoute().get(i);
-            if(field.isOccupied()){
-                if(!field.getFigurine().isFlying())
-                    matrix.removeFigurine(field);
+        Platform.runLater(() -> {
+            for(Integer i : indexes){
+                Field field = matrix.getTraversalRoute().get(i);
+                if(field.isOccupied()){
+                    if(!field.getFigurine().isFlying())
+                        matrix.removeFigurine(field);
+                }
             }
-        }
+        });
+
         return 0;
     }
 
